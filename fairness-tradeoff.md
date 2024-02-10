@@ -130,12 +130,18 @@ For each fairness constraint, Figure above shows that violent recidivism increas
 
 
 <p align="center">
-  <img src="img/alg-decision-3.png" alt="Description of the first image" width="48%">
+  <img src="img/alg-decision-1.png" alt="Description of the first image" width="48%">
 </p>
 A decision rule constrained to satisfy statistical parity, conditional statistical parity, or predictive equality reduces public safety. However, a single-threshold rule that maximizes public safety generally violates all of these fairness definitions. This happens because white and black defendants in Broward County have different distributions of risk, $P_{Y|X}$, as shown in above figure. Specifically, a larger portion of black defendants have relatively high risk scores, in part because black defendants are more likely to have prior arrests, which is a strong indicator of reoffending. Importantly, while an algorithm designer can choose different decision rules based on these risk scores, the algorithm cannot alter the risk scores themselves, which reflect underlying features of the population of Broward County.
 
 
+
+
+
+
+
 ***Fairness: Yet Elusive in Practice***
+
 
 Study indicate that it is challenging to achieve fairness in risk assignments to individuals according to three fundamental conditions simultaneously, except in highly constrained scenarios as follows:
 
