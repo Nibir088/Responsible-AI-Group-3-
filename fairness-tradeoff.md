@@ -48,7 +48,7 @@ __Statistical Parity__
 $d^*(X) = 1$ if $P_{Y|X} \geq t_{g(X)}$ and $0$ otherwise, where $t_{g(X)}$ are constants that depend only on group membership. The optimal rule satisfying predictive equality
 takes the same form, though the values of the group-specific thresholds are different.
 
-__Predictive Equality__ The optimal decision rule $ d^*(X)$ satisfying predictive equality takes a similar form to the statistical parity case, with group-specific thresholds.
+__Predictive Equality__ The optimal decision rule $d^*(X)$ satisfying predictive equality takes a similar form to the statistical parity case, with group-specific thresholds.
 
 __Conditional Statistical Parity__ $d^*(X) = 1$ if $P_{Y|X} \geq t_{g(X),l(X)}$ and $0$ otherwise, where $t_{g(X),l(X)}$ are constants dependent on group membership and legitimate attributes.
 
@@ -117,7 +117,9 @@ group skew $\sigma(X , Y) > t$.
 
 ### Unfairness in existing COMPAS algorithm
 
-***Assess Fairness***
+
+ 
+***Uncovering Inequity: Assessing Disparate Impact in Decision-Making***
 
 
 To assess fairness, we can use the following equation which relates false negative rate and false positive rate. Given that S={HR,LR} is random variable indicates the risk factor. There are two possible values of S that is HR (high risk) and LR (low risk). FNR and FOR are defined as follows:
@@ -136,9 +138,6 @@ This finding helps us to comprehend why the ProPublica writers saw significant d
 <p align="center">
   <img src="img/img2.png" alt="Description of the image">
 </p>
- 
-***Uncovering Inequity: Assessing Disparate Impact in Decision-Making***
-
 
 Disparate impact under penalty policies where high-risk assessments result in stricter penalties is the consequence of differences in false positive and false negative rates between groups.
 The higher recidivism prevalence group will often have a higher FPR and a lower FNR when employing a test-fair RPI in populations where recidivism prevalence varies across groups. Furthermore, it's evident that this would lead to harsher punishments for defendants in the higher prevalence group, both for repeat offenders and non-repeaters.
@@ -192,16 +191,22 @@ This difficulty persists regardless of the method used for risk calculation. The
 
 ### Trade-off between Individual Fairness and Group Non-discrimination
 
-**Individual fairness mechanisms guarantee fairness under WYSIWYG.**
+***Individual fairness mechanisms guarantee fairness under WYSIWYG.***
+
+
 Fairness can be guaranteed only with very strong assumptions about the world: namely, that “what you see is what you get,” i.e., that we can correctly measure individual fitness for a task regardless of issues of bias and discrimination.
 - Under the WYSIWYG with error parameter $\delta$, an $\text{IFM}_{\delta'}$ will guarantee $(\epsilon, \epsilon')$-fairness for some function $f$ such that $\epsilon'=f(\delta,\delta')$.
 
-**Group fairness mechanisms guarantee non-discrimination under WAE.**
+***Group fairness mechanisms guarantee non-discrimination under WAE.***
+
+
 Building non-discriminatory decision algorithms is shown to require a different worldview, namely that “we’re all equal,” i.e., that all groups are assumed to have similar abilities with respect to the task in the construct space.
 - Under the WAW, a GFM with parameter $\epsilon'$ guarantees $(\max(\epsilon,\epsilon')/\delta)$-nondiscrimination.
 
 
-**Conflicting worldviews necessitate different mechanisms.**
+***Conflicting worldviews necessitate different mechanisms.***
+
+
 However, the authors found the two worldviews conflict with each other and the two fairness mechanisms cannot be achieved simultaneously.
 - Failure of fairness: If there is structural bias in the decision pipeline, no mechanism can guarantee fairness. Fairness can only be achieved under the WYSIWYG worldview using an individual fairness mechanism, and using a group fairness mechanism will be unfair within this worldview.
 - Failure of non-discrimination: While group fairness mechanisms were shown to achieve nondiscrimination under a structural bias worldview and the we’re all equal axiom, if structural bias is assumed, applying an individual fairness mechanism will cause discrimination in the decision space whether the we’re all equal axiom is assumed or not.
