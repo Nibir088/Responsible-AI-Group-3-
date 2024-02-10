@@ -186,7 +186,6 @@ Study indicate that it is challenging to achieve fairness in risk assignments to
 
 This difficulty persists regardless of the method used for risk calculation. The authors illustrate this challenge with an example involving gender-based differences in disease carrier rates. They suggest further research directions to explore computational feasibility and various cost considerations for false positives and false negatives. They also provide mathematical proofs demonstrating the existence of fair risk assignments in specific cases
 
-**Sree: Please add findings on the tradeoff**
 
 ### Trade-off between Individual Fairness and Group Non-discrimination
 
@@ -224,7 +223,6 @@ Author in [2] proposed constrainted optimization for algorithmic fairness. Howev
 loans preferentially to minorities might ultimately lead to a more productive distribution of wealth, combating harms from historical under-investment in minority communities.
 - There are some decisions that generally are thought of as group rather than individual choices. For example, when universities admit students, they often aim to select the best group, not simply the best individual candidates, and may thus decide to deviate from a single-threshold rule in order to create diverse communities with varied perspectives and background.
 
-***Sree: Please add your thoughts on the tradeoff***
 
 
 **On the (im)possibility of fairness**
