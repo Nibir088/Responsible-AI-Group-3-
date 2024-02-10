@@ -17,38 +17,39 @@ decisions must be made. We can formally define the different definition of fairn
 
 1. **Statistical Parity**: denotes for an equal proportion of individuals from different groups to be subjected to a specific decision. For instance, equal detention rates among different racial groups. Assume that a person x belongs to the group $g(x)$. For this, statistical parity is defined as follows:
    
-    $\[ E[d(X) | g(X)] = E[d(X)] \]$
+    $E[d(X) | g(X)] = E[d(X)]$
    
 2. **Conditional statistical Parity**: indicates that controlling for a limited set of “legitimate” risk factors, an equal proportion of defendants are detained within each race group. Let, $l(x)$ is the legitimate risk associated with person $x$.
 
-   $\[ E[d(X) | l(X), g(X)] = E[d(X)] \]$
+   $E[d(X) | l(X), g(X)] = E[d(X)]$
 
 3. **Predictive equality**: means that the accuracy of decisions is equal across race groups, as measured by false positive rate (FPR). This condition means that among defendants who would not have gone on to commit a violent crime if released, detention rates are equal across race groups. Assume that $Y$ is a random variable where $y = 1$ for those defendants who would have committed a violent crime if released, and $y = 0$ otherwise. Formally, predictive equality means
 
-   $\[ E[d(X) | Y=0, g(X)] = E[d(X) |Y=0] \]$
+   $E[d(X) | Y=0, g(X)] = E[d(X) |Y=0]$
 
 ## Formulation of algorithomic fairness using constrainted optimization
 
 As there exists multiple definition of fairness, there should be some criteria to select one. In making this choice, authors [2] assume policymakers seek to maximize a specific notion of utility. In context of pretrial setting, there must be a balance between the benefit of preventing violent crime committed by released defendants and the social and economic costs of detention. To capture these costs and benefits, authros of [2] define the immediate utility of a decision rule as follows
 
 **Immediate utility** For $c$ a constant such that $0 < c < 1$, the immediate utility of a decision rule $d$ is:
-  $\[ u(d,c) = E[Y(d(X))-c d(X)] \]$
+   
+   $u(d,c) = E[Y(d(X))-c d(X)]$
 
 This can be further written as $u(d,c)=E[d(X)(P_{Y|X}-c)]$, where $P_{Y|X}$ denotes the probability that the defendant will commit crime if released. This shows that it is
 beneficial to detain an individual precisely when $P_{Y|X}>c$.
 
 Optimal decision rules $\( d^* \)$ that maximizes $u(d,c)$ under various fairness condition are unique and have following form:
 
-**Unconstrained Optimum**
+__Unconstrained Optimum__
  $d^*(X) = 1$ if $P_{Y|X} \geq c$ and $0$ otherwise
 
-**Statistical Parity**
+__Statistical Parity__
 $d^*(X) = 1$ if $P_{Y|X} \geq t_{g(X)}$ and $0$ otherwise, where $t_{g(X)}$ are constants that depend only on group membership. The optimal rule satisfying predictive equality
 takes the same form, though the values of the group-specific thresholds are different.
 
-**Predictive Equality** The optimal decision rule $ d^*(X)$ satisfying predictive equality takes a similar form to the statistical parity case, with group-specific thresholds.
+__Predictive Equality__ The optimal decision rule $ d^*(X)$ satisfying predictive equality takes a similar form to the statistical parity case, with group-specific thresholds.
 
-**Conditional Statistical Parity** $d^*(X) = 1$ if $P_{Y|X} \geq t_{g(X),l(X)}$ and $0$ otherwise, where $t_{g(X),l(X)}$ are constants dependent on group membership and legitimate attributes.
+__Conditional Statistical Parity__ $d^*(X) = 1$ if $P_{Y|X} \geq t_{g(X),l(X)}$ and $0$ otherwise, where $t_{g(X),l(X)}$ are constants dependent on group membership and legitimate attributes.
 
 In summary, for statistical parity and predictive equality, the optimal algorithms detain defendants when $P_{Y|X}$ exceeds a group-specific threshold. For example, black defendants might be detained if $P_{Y|X}\ge 0.2$, and white defendants detained if $P_{Y|X}\ge 0.1$. The exact thresholds for statistical parity differ from those for predictive equality. For conditional statistical parity, the thresholds in the optimal decision rule depend on both group membership and the “legitimate” factors.
 
@@ -85,14 +86,17 @@ To assess fairness, we can use the following equation which relates false negati
    $FNR = p(S = LR | Y = 1)$
    
    $FPR = P(S = HR | Y = 0)$
-   
-![Alt text](img/img1.png)
+
+<p align="center">
+  <img src="img/img1.png" alt="Description of the image">
+</p>
 
 This straightforward equation implies that a test-fair score S cannot have identical false positive and negative rates across groups when the recidivism incidence varies.
 This finding helps us to comprehend why the ProPublica writers saw significant differences in FPR and FNR between defendants who were Black and those who were White.
 
-![Alt text](img/img2.png)
-
+<p align="center">
+  <img src="img/img2.png" alt="Description of the image">
+</p>
  
 ***Uncovering Inequity: Assessing Disparate Impact in Decision-Making***
 
@@ -100,23 +104,35 @@ This finding helps us to comprehend why the ProPublica writers saw significant d
 Disparate impact under penalty policies where high-risk assessments result in stricter penalties is the consequence of differences in false positive and false negative rates between groups.
 The higher recidivism prevalence group will often have a higher FPR and a lower FNR when employing a test-fair RPI in populations where recidivism prevalence varies across groups. Furthermore, it's evident that this would lead to harsher punishments for defendants in the higher prevalence group, both for repeat offenders and non-repeaters.
 
-![Alt text](img/img3.png)
 
-The figure above displays a plot of false positive rates for defendants charged with misdemeanor offenses, the least serious category of criminal offenses, over various ranges of prior counts. It is evident that disparities in false positive rates between White and Black offenders continue throughout previous record segments.
+<p align="center">
+  <img src="img/img3.png" alt="Description of the first image" width="48%">
+  <img src="img/img4.png" alt="Description of the second image" width="48%">
+</p>
 
-![Alt text](img/img4.png)
- 
-In the above figure, COMPAS decile score distribution isn't normal, a better approach is to equate % non-overlap with total variation distance. This involves comparing score distributions across races and recidivism outcomes, allowing for a precise boundary on disparate impact. Essentially, it shifts from a standard normal assumption to a more robust method reflecting the actual score distribution characteristics.
+
+
+The figure above (left) displays a plot of false positive rates for defendants charged with misdemeanor offenses, the least serious category of criminal offenses, over various ranges of prior counts. It is evident that disparities in false positive rates between White and Black offenders continue throughout previous record segments.
+
+In the above figure (right), COMPAS decile score distribution isn't normal, a better approach is to equate % non-overlap with total variation distance. This involves comparing score distributions across races and recidivism outcomes, allowing for a precise boundary on disparate impact. Essentially, it shifts from a standard normal assumption to a more robust method reflecting the actual score distribution characteristics.
 
 ***Fairness at the Cost of Safety: Striking a Delicate Balance***
 
 
 Author [2] show that even though fairness can be achieved, the risk of crime in society can increase. Using the constraints optimization of algorithmic fairness, the effect can be mitigated. However, there exists a trade-off between risk and fairness. 
-![Alt text](img/alg-decision-2.png)
 
-For each fairness constraint, Figure 1 shows that violent recidivism increases while low risk defendants are detained. For example, when we enforce statistical parity, 17% of detained defendants are relatively low risk. An equal number of high-risk defendants are thus released (because we hold fixed the number of individuals detained), leading to an estimated 9% increase in violent recidivism among released defendants. There are thus tangible costs to satisfying popular notions of algorithmic fairness.
+<p align="center">
+  <img src="img/alg-decision-2.png" alt="Description of the first image" width="48%">
+</p>
 
-![Alt text](img/alg-decision-1.png)
+
+For each fairness constraint, Figure above shows that violent recidivism increases while low risk defendants are detained. For example, for statistical parity, 17% of detained defendants are relatively low risk. Therefore, to enforece fairness, an equal number of high-risk defendants are should be released. This will lead to an estimated 9% increase in violent recidivism among released defendants. There are thus tangible costs to satisfying popular notions of algorithmic fairness. Similarly, the risk for predictive equality is 7% whereas the number is 4% for conditional statistical parity.
+
+
+<p align="center">
+  <img src="img/alg-decision-3.png" alt="Description of the first image" width="48%">
+</p>
+A decision rule constrained to satisfy statistical parity, conditional statistical parity, or predictive equality reduces public safety. However, a single-threshold rule that maximizes public safety generally violates all of these fairness definitions. This happens because white and black defendants in Broward County have different distributions of risk, $P_{Y|X}$, as shown in above figure. Specifically, a larger portion of black defendants have relatively high risk scores, in part because black defendants are more likely to have prior arrests, which is a strong indicator of reoffending. Importantly, while an algorithm designer can choose different decision rules based on these risk scores, the algorithm cannot alter the risk scores themselves, which reflect underlying features of the population of Broward County.
 
 
 ***Fairness: Yet Elusive in Practice***
@@ -149,13 +165,10 @@ Author in [2] proposed constrainted optimization for algorithmic fairness. Howev
 
 - All violent crime is assumed to be equally costly. However, in practice magnitude of all offense are not similar. For instance, bank robbery and over-speeding are not equal costly in society.
 - The cost of detaining every individual is assumed to be constant, without regard to personal characteristics. This assumption often does not hold. In practice, however, it is often difficult to approximate individualized costs and benefits of detention. This can significantly effect the fairness of the algorithm.
-- Risk scores might also fail to accurately capture costs in specific, idiosyncratic cases. Detaining a defendant who is the sole caretaker
-of her children arguably incurs higher social costs than detaining a defendant without children. Discretionary consideration of individual cases might thus be justified, provided that such discretion does not also introduce bias.
-- The immediate utility of a decision rule might be a poor measure of its long-term costs and benefits. For example, in the context of credit extensions, offering
-loans preferentially to minorities might ultimately lead to a more productive distribution of wealth, combating harms from historical
-under-investment in minority communities.
-- Some decisions are better thought of as group rather than individual choices, limiting the applicability of the framework we have been considering. For example, when universities admit students, they often aim to select the best group, not simply the best individual candidates, and may thus decide to deviate from a single-threshold rule in order to create diverse
-communities with varied perspectives and background.
+- Risk scores might also fail to accurately capture costs in specific, idiosyncratic cases. For instance, detaining a defendant who is the sole caretaker of her children arguably incurs higher social costs than detaining a defendant without children. However, adding such dicretion potentially introduce bias. Therefore, this should be handled more carefully. 
+- The immediate utility of a decision rule might not an effective measurement for long-term costs and benefits. For instance, in the context of credit extensions, offering
+loans preferentially to minorities might ultimately lead to a more productive distribution of wealth, combating harms from historical under-investment in minority communities.
+- There are some decisions that generally are thought of as group rather than individual choices. For example, when universities admit students, they often aim to select the best group, not simply the best individual candidates, and may thus decide to deviate from a single-threshold rule in order to create diverse communities with varied perspectives and background.
 
 ***Sree: Please add your thoughts on the tradeoff***
 
