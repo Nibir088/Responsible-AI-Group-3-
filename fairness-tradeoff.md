@@ -12,6 +12,9 @@ Recently, the world of computer science is engaged in a debate regarding fairnes
 
 # Methods
 <p align="justify"> 
+
+## Fairness definition
+
 There are multiple definition of algorithmic fairness. Common definitions of fairness are statistical parity, conditional statistical parity, and predictive equality. Assume that an algorithm makes decision about the defendants should be detained or release. We denote the decision as $d(x)$, where $x$ is the defendant attributes that are considered for the decision making. We assume that $X$ is the random variable that on values $X = x$ for an individual drawn randomly from the the population of defendants for whom pretrial
 decisions must be made. We can formally define the different definition of fairness as follows: 
 
