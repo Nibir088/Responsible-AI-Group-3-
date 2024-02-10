@@ -1,7 +1,8 @@
-<p align="justify"> 
-# Introduction
 
+# Introduction
+<p align="justify">
 Algorithm has been used regularly by the judges to decide whether defendants should be detained or released while awaiting trial. Although judges are not only dependent on the decision made by the algorithm, they frequently seek help to conclude a decision. Therefore, a high-risk classification, particularly a high-risk misclassification, may have a direct adverse impact on a criminal defendant’s outcome. Therefore, fairness in such algorithms is necessary to reduce such adversity. There are different definitions of fairness in algorithms such as statistical parity, calibration, predictive parity, etc. One of the most popular algorithms that judges use is COMPAS. However, studies from [1] and [2] show that there are racial biases in this algorithm. Both studies indicate that in Broward County, black defendants are substantially more likely to be classified as high risk. [1] through their case studies, show the disparities in algorithms. [2] reformulates algorithmic fairness as constrained optimization with the objective of maximizing public safety while satisfying formal fairness constraints designed to reduce racial disparities. However, they also mentioned that there is tension between improving public safety and satisfying prevailing notions of algorithmic fairness. Therefore, maintaining algorithmic fairness, safety, and model accuracy is challenging. Studies from [3] showed that there is no algorithm or method that can satisfy three fairness conditions. The studies refer to the three conditions of fairness calibration within a group, balance for the negative class and balance for the positive class, which can be achieved in specific cases. [4] deeply analyse the impossibilities of fairness. The study showed that fairness can be guaranteed only with very strong assumptions about the world: namely, that “what you see is what you get,” i.e., that we can correctly measure individual fitness for a task regardless of issues of bias and discrimination. They complement this with an impossibility result, saying that if this strong assumption is dropped, then fairness can no longer be guaranteed.
+</p>
 
 # Motivation
 The notion of fairness in the context of artificial intelligence and machine learning is a multi-faceted and complex problem that consists of several criteria and conditions. These papers discuss the need to quantify algorithmic fairness, talking about the tradeoffs that must be kept in mind, the limitations of such algorithms, and cases where achieving complete fairness can seem impossible. 
@@ -242,4 +243,4 @@ Lastly, the paper critically examines the implications of its findings for the d
 
 [4]. On the (im)possibility of fairness. S.A. Friedler, C. Scheidegger, S. Venkatasubramanian, 2017
 
-</p>
+
