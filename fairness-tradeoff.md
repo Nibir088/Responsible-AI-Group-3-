@@ -221,9 +221,13 @@ However, the authors found the two worldviews conflict with each other and the t
 
 <p align="justify">
 The study suggests the necessity of equalizing error rates across distinct groups in certain risk assessment scenarios, despite the potential introduction of predictive bias. Merely aligning overall error rates may not suffice, as disparities can persist within specific categories, such as prior record scores. It becomes crucial to determine the granularity at which balancing error rates is essential for fairness.
+</p>
 
+<p align="justify">
 One aspect of the study that could be subject to further scrutiny is the generalizability of the results. While the example provided regarding gender-based differences is illustrative, it's important to consider the broader applicability of the findings across different contexts and demographic characteristics. Additionally, the study acknowledges the need for further research to explore computational feasibility and various cost considerations for false positives and false negatives. This recognition underscores the importance of ongoing inquiry and refinement in this area.
+</p>
 
+<p align="justify">
 Moreover, the mathematical proof provided by the paper authors adds rigor to their conclusions and contributes to the academic discourse on fairness in risk assignments. However, mathematical models, while powerful tools, can have limitations in capturing the full complexity of real-world scenarios. Therefore, it's crucial for future research to complement mathematical analyses with empirical studies (such as in paper [1]) to gain a comprehensive understanding of fairness in risk assessment.
 </p>
 
