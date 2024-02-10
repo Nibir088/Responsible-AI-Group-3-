@@ -74,6 +74,31 @@ Risk assignments in alogrithm is challenging. Model assign risk based on differe
 
 
 # Key Findings
+
+### Unfairness in existing COMPAS algorithm
+
+***Assess Fairness***
+To assess fairness, we can use the following equation which relates false negative rate and false positive rate. Given that S={HR,LR} is random variable indicates the risk factor. There are two possible values of S that is HR (high risk) and LR (low risk). FNR and FOR are defined as follows:
+
+   $FNR = p(S = LR | Y = 1)$
+   
+   $FPR = P(S = HR | Y = 0)$
+   
+This straightforward equation implies that a test-fair score S cannot have identical false positive and negative rates across groups when the recidivism incidence varies.
+This finding helps us to comprehend why the ProPublica writers saw significant differences in FPR and FNR between defendants who were Black and those who were White.
+ 
+ 
+***Assess Disparate Impact***
+
+Disparate impact under penalty policies where high-risk assessments result in stricter penalties is the consequence of differences in false positive and false negative rates between groups.
+The higher recidivism prevalence group will often have a higher FPR and a lower FNR when employing a test-fair RPI in populations where recidivism prevalence varies across groups. Furthermore, it's evident that this would lead to harsher punishments for defendants in the higher prevalence group, both for repeat offenders and non-repeaters.
+ 
+The figure above displays a plot of false positive rates for defendants charged with misdemeanor offenses, the least serious category of criminal offenses, over various ranges of prior counts. It is evident that disparities in false positive rates between White and Black offenders continue throughout previous record segments.
+ 
+In the above figure, COMPAS decile score distribution isn't normal, a better approach is to equate % non-overlap with total variation distance. This involves comparing score distributions across races and recidivism outcomes, allowing for a precise boundary on disparate impact. Essentially, it shifts from a standard normal assumption to a more robust method reflecting the actual score distribution characteristics.
+
+
+
 # Critical Analysis
 
 Biases in existing algorithm
