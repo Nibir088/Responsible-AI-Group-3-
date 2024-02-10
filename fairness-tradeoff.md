@@ -237,13 +237,13 @@ loans preferentially to minorities might ultimately lead to a more productive di
 
 
 **On the (im)possibility of fairness**
-
+<p align="justify"> 
 The paper [4] offers a deep dive into the puzzle of achieving fairness in algorithmic decision-making. It thoroughly outlines the conflict between different fairness criteria, demonstrating how attempts to satisfy one criterion can inadvertently violate another. This conflict is framed within the broader context of societal structures and the inherent biases embedded within them. By examining the mathematical foundations of these issues, the authors present a compelling argument that fairness cannot be a one-size-fits-all concept but is instead a multifaceted goal that requires careful consideration of the specific context and values at stake.
 
 In their exploration, the authors introduce a framework that distinguishes between construct space (the ideal measurements of attributes), observed space (the imperfect real-world measurements), and decision space (the outcomes of algorithmic decision-making). This framework is crucial for understanding how discrepancies and biases can arise at each stage of the decision-making process. The paper highlights the importance of transparency about the assumptions and values that underlie different fairness definitions, arguing that without explicit recognition of these assumptions, discussions about fairness are likely to be unproductive. This nuanced approach emphasizes the role of societal norms and values in shaping what is considered fair, suggesting that any attempt to address fairness must engage with these broader societal factors.
 
 Lastly, the paper critically examines the implications of its findings for the development and deployment of algorithmic systems. It suggests that the quest for fairness is not merely a technical challenge but also a deeply ethical one that requires ongoing critical reflection and dialogue among developers, policymakers, and affected communities. The authors advocate for a more collaborative approach to algorithmic fairness, one that involves diverse stakeholders in defining and pursuing fairness goals. This call to action underscores the need for interdisciplinary efforts to tackle the complexities of fairness, highlighting the limitations of purely technical solutions and the importance of integrating ethical considerations into the design and implementation of algorithmic systems.
-
+</p>
 ## Reference
 [1]. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments. A. Chouldechova, 2016
 
