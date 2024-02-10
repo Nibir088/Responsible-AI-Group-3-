@@ -69,7 +69,7 @@ Risk assignments in alogrithm is challenging. Model assign risk based on differe
 
 
 
-
+***Guangzhi: Please add methodology of impossibilites***
 
 
 
@@ -94,7 +94,7 @@ This finding helps us to comprehend why the ProPublica writers saw significant d
 ![Alt text](img/img2.png)
 
  
-***Assess Disparate Impact***
+***Uncovering Inequity: Assessing Disparate Impact in Decision-Making***
 
 
 Disparate impact under penalty policies where high-risk assessments result in stricter penalties is the consequence of differences in false positive and false negative rates between groups.
@@ -108,7 +108,7 @@ The figure above displays a plot of false positive rates for defendants charged 
  
 In the above figure, COMPAS decile score distribution isn't normal, a better approach is to equate % non-overlap with total variation distance. This involves comparing score distributions across races and recidivism outcomes, allowing for a precise boundary on disparate impact. Essentially, it shifts from a standard normal assumption to a more robust method reflecting the actual score distribution characteristics.
 
-***Fairness costs risks***
+***Fairness at the Cost of Safety: Striking a Delicate Balance***
 
 
 Author [2] show that even though fairness can be achieved, the risk of crime in society can increase. Using the constraints optimization of algorithmic fairness, the effect can be mitigated. However, there exists a trade-off between risk and fairness. 
@@ -118,12 +118,50 @@ For each fairness constraint, Figure 1 shows that violent recidivism increases w
 
 ![Alt text](img/alg-decision-1.png)
 
+
+***Fairness: Yet Elusive in Practice***
+
+Study indicate that it is challenging to achieve fairness in risk assignments to individuals according to three fundamental conditions simultaneously, except in highly constrained scenarios as follows:
+
+* __Perfect Prediction__: This is a special case where there exists a definite, known risk probability that is either 0 or 1. In other words, we don’t have a continuous range of values (no uncertainty). This case satisfies all the above 3 conditions.
+* __Equal Base Rates__: If the proportion of members that belong to a particular class (or condition) of each group is equal (for e.g., if 20% of people in Group A belong to a positive class and 20% of people in Group B also belong to the same positive class), all the above 3 conditions will be satisfied.
+
+This difficulty persists regardless of the method used for risk calculation. The authors illustrate this challenge with an example involving gender-based differences in disease carrier rates. They suggest further research directions to explore computational feasibility and various cost considerations for false positives and false negatives. They also provide mathematical proofs demonstrating the existence of fair risk assignments in specific cases
+
+**Sree: Please add findings on the tradeoff**
+
+
+***Guangzhi: Please add findings on the (im)possibility***
+
+
 # Critical Analysis
 
-Biases in existing algorithm
-Trade-off between bias and risks
+**Thoughts for Inherent Tradeoffs in Risk Assignment**
+The study suggests the necessity of equalizing error rates across distinct groups in certain risk assessment scenarios, despite the potential introduction of predictive bias. Merely aligning overall error rates may not suffice, as disparities can persist within specific categories, such as prior record scores. It becomes crucial to determine the granularity at which balancing error rates is essential for fairness.
 
-# Critical Analysis
+One aspect of the study that could be subject to further scrutiny is the generalizability of the results. While the example provided regarding gender-based differences is illustrative, it's important to consider the broader applicability of the findings across different contexts and demographic characteristics. Additionally, the study acknowledges the need for further research to explore computational feasibility and various cost considerations for false positives and false negatives. This recognition underscores the importance of ongoing inquiry and refinement in this area.
+
+Moreover, the mathematical proof provided by the paper authors adds rigor to their conclusions and contributes to the academic discourse on fairness in risk assignments. However, mathematical models, while powerful tools, can have limitations in capturing the full complexity of real-world scenarios. Therefore, it's crucial for future research to complement mathematical analyses with empirical studies (such as in paper [1]) to gain a comprehensive understanding of fairness in risk assessment.
+
+**Challenges of algorithomic fairness**
+
+Author in [2] proposed constrainted optimization for algorithmic fairness. However, during the problem formulation, there are several assumption that differs from practical worlds. For instance, 
+
+- All violent crime is assumed to be equally costly. However, in practice magnitude of all offense are not similar. For instance, bank robbery and over-speeding are not equal costly in society.
+- The cost of detaining every individual is assumed to be constant, without regard to personal characteristics. This assumption often does not hold. In practice, however, it is often difficult to approximate individualized costs and benefits of detention. This can significantly effect the fairness of the algorithm.
+- Risk scores might also fail to accurately capture costs in specific, idiosyncratic cases. Detaining a defendant who is the sole caretaker
+of her children arguably incurs higher social costs than detaining a defendant without children. Discretionary consideration of individual cases might thus be justified, provided that such discretion does not also introduce bias.
+- The immediate utility of a decision rule might be a poor measure of its long-term costs and benefits. For example, in the context of credit extensions, offering
+loans preferentially to minorities might ultimately lead to a more productive distribution of wealth, combating harms from historical
+under-investment in minority communities.
+- Some decisions are better thought of as group rather than individual choices, limiting the applicability of the framework we have been considering. For example, when universities admit students, they often aim to select the best group, not simply the best individual candidates, and may thus decide to deviate from a single-threshold rule in order to create diverse
+communities with varied perspectives and background.
+
+***Sree: Please add your thoughts on the tradeoff***
+
+
+***Guangzhi: Please add your thoughts on the (im)possibility***
+
 
 
 ## Reference
