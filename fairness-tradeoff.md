@@ -5,9 +5,9 @@ Algorithm has been used regularly by the judges to decide whether defendants sho
 
 # Motivation
 The notion of fairness in the context of artificial intelligence and machine learning is a multi-faceted and complex problem that consists of several criteria and conditions. These papers discuss the need to quantify algorithmic fairness, talking about the tradeoffs that must be kept in mind, the limitations of such algorithms, and cases where achieving complete fairness can seem impossible. 
-Recently, the world of computer science is engaged in a debate regarding fairness in decision-making. Two perspectives are key to this debate: individual fairness and group fairness. Assigning the right amount of weight to each group or individual within a population to ensure unbiased results is still something that demands research. These papers, in general, emphasize the need to ensure that the tools employed by such algorithms are free from quantifiable biases that could result in differential impacts in the contexts in which they are utilized. Two of the papers [3, 4] describe the 
+Recently, the world of computer science is engaged in a debate regarding fairness in decision-making. Two perspectives are key to this debate: individual fairness and group fairness. Assigning the right amount of weight to each group or individual within a population to ensure unbiased results is still something that demands research. These papers, in general, emphasize the need to ensure that the tools employed by such algorithms are free from quantifiable biases that could result in differential impacts in the contexts in which they are utilized. **Two of the papers [3, 4] describe the**
 
-
+Friedler et al. [4] mathematically analyzed the individual and group fairness, uncovering the assumptions needed to achieve each of the fairness definitions. The trade-off between individual equity and group non-discrimination is further illustrated, as different equity mechanisms need to be grounded in conflicting worldviews.
 
 
 # Methods
@@ -17,15 +17,15 @@ decisions must be made. We can formally define the different definition of fairn
 
 1. **Statistical Parity**: denotes for an equal proportion of individuals from different groups to be subjected to a specific decision. For instance, equal detention rates among different racial groups. Assume that a person x belongs to the group $g(x)$. For this, statistical parity is defined as follows:
    
-    $E[d(X) | g(X)] = E[d(X)]$
+    $$E[d(X) | g(X)] = E[d(X)]$$
    
 2. **Conditional statistical Parity**: indicates that controlling for a limited set of “legitimate” risk factors, an equal proportion of defendants are detained within each race group. Let, $l(x)$ is the legitimate risk associated with person $x$.
 
-   $E[d(X) | l(X), g(X)] = E[d(X)]$
+   $$E[d(X) | l(X), g(X)] = E[d(X)]$$
 
 3. **Predictive equality**: means that the accuracy of decisions is equal across race groups, as measured by false positive rate (FPR). This condition means that among defendants who would not have gone on to commit a violent crime if released, detention rates are equal across race groups. Assume that $Y$ is a random variable where $y = 1$ for those defendants who would have committed a violent crime if released, and $y = 0$ otherwise. Formally, predictive equality means
 
-   $E[d(X) | Y=0, g(X)] = E[d(X) |Y=0]$
+   $$E[d(X) | Y=0, g(X)] = E[d(X) |Y=0]$$
 
 ## Formulation of algorithomic fairness using constrainted optimization
 
@@ -33,12 +33,12 @@ As there exists multiple definition of fairness, there should be some criteria t
 
 **Immediate utility** For $c$ a constant such that $0 < c < 1$, the immediate utility of a decision rule $d$ is:
    
-   $u(d,c) = E[Y(d(X))-c d(X)]$
+   $$u(d,c) = E[Y(d(X))-c d(X)]$$
 
 This can be further written as $u(d,c)=E[d(X)(P_{Y|X}-c)]$, where $P_{Y|X}$ denotes the probability that the defendant will commit crime if released. This shows that it is
 beneficial to detain an individual precisely when $P_{Y|X}>c$.
 
-Optimal decision rules $\( d^* \)$ that maximizes $u(d,c)$ under various fairness condition are unique and have following form:
+Optimal decision rules $( d^* )$ that maximizes $u(d,c)$ under various fairness condition are unique and have following form:
 
 __Unconstrained Optimum__
  $d^*(X) = 1$ if $P_{Y|X} \geq c$ and $0$ otherwise
@@ -69,10 +69,48 @@ Risk assignments in alogrithm is challenging. Model assign risk based on differe
   $E[s(X) | Y=1, g(X)] = E[s(X)|Y=1] $
 
 
+## Mathematical Framework of Fairness
+The authors in [4] introduced a mathematical framework for the interpretation of fairness, which includes three major metric spaces:
+- Construct space (CS): a metric space consisting of individuals and a distance between them, which captures unobservable but meaningful variables for the prediction 
+- Observed space (OS): in reality, this is what we can measure or observe
+- Decision space (DS): the space of outcomes
 
-***Guangzhi: Please add methodology of impossibilites***
+Here is an example of the three spaces:
+<p align="center">
+  <img src="img/impossible_space_example.png" alt="Description of the image">
+</p>
 
+The authors also formally defined fairness and non-discrimation:
+- The mathematical definition of fairness is
+<p align="center">
+  <img src="img/impossible_fairness_def.png" alt="Description of the image">
+</p>
 
+- The mathematical definition of non-discrimination is
+<p align="center">
+  <img src="img/impossible_non_dis_def.png" alt="Description of the image">
+</p>
+
+- - where the group skew measures the way in which group (geometric) structure might be distorted between
+spaces.
+
+While the above definitions conceptually describe the requirements of fairness and non-discrimation in the mapping from CS to DS, the real-world fairness algorithms are typically deployed on the tranformation from OS to DS. The authors further defined mathematically two major fairness mechnisms in real-world applications:
+- The mathematical definition of individual fairness mechanism (IFM) is
+<p align="center">
+  <img src="img/impossible_IFM_def.png" alt="Description of the image">
+</p>
+
+- The mathematical definition of group fairness mechanism (GFM) is
+<p align="center">
+  <img src="img/impossible_GFM_def.png" alt="Description of the image">
+</p>
+The individual fairness mechanism asserts that the mechanism for decision making treats people similarly if they are close, and can treat them differently if they are far, in the observed space. The group fairness mechanism asserts that the decision mechanism should treat all groups the same way. 
+
+Two frequently used but incompatible worldviews are formally introduced by the authors, including:
+- what you see is what you get (WYSIWYG): There exists a mapping $f : CS \rightarrow OS$ such that the distortion ρf
+is at most $\epsilon$ for some small $\epsilon > 0$. Or equivalently, the distortion $\rho$ between $CS$ and $OS$ is at most $\epsilon$.
+- structural bias: The metric spaces $CS = (X, dX)$ and $OS = (Y, dY)$ admit $t$-structural bias if the
+group skew $\sigma(X , Y) > t$.
 
 # Key Findings
 
@@ -152,9 +190,21 @@ This difficulty persists regardless of the method used for risk calculation. The
 
 **Sree: Please add findings on the tradeoff**
 
+### Trade-off between Individual Fairness and Group Non-discrimination
 
-***Guangzhi: Please add findings on the (im)possibility***
+**Individual fairness mechanisms guarantee fairness under WYSIWYG.**
+Fairness can be guaranteed only with very strong assumptions about the world: namely, that “what you see is what you get,” i.e., that we can correctly measure individual fitness for a task regardless of issues of bias and discrimination.
+- Under the WYSIWYG with error parameter $\delta$, an $\text{IFM}_{\delta'}$ will guarantee $(\epsilon, \epsilon')$-fairness for some function $f$ such that $\epsilon'=f(\delta,\delta')$.
 
+**Group fairness mechanisms guarantee non-discrimination under WAE.**
+Building non-discriminatory decision algorithms is shown to require a different worldview, namely that “we’re all equal,” i.e., that all groups are assumed to have similar abilities with respect to the task in the construct space.
+- Under the WAW, a GFM with parameter $\epsilon'$ guarantees $(\max(\epsilon,\epsilon')/\delta)$-nondiscrimination.
+
+
+**Conflicting worldviews necessitate different mechanisms.**
+However, the authors found the two worldviews conflict with each other and the two fairness mechanisms cannot be achieved simultaneously.
+- Failure of fairness: If there is structural bias in the decision pipeline, no mechanism can guarantee fairness. Fairness can only be achieved under the WYSIWYG worldview using an individual fairness mechanism, and using a group fairness mechanism will be unfair within this worldview.
+- Failure of non-discrimination: While group fairness mechanisms were shown to achieve nondiscrimination under a structural bias worldview and the we’re all equal axiom, if structural bias is assumed, applying an individual fairness mechanism will cause discrimination in the decision space whether the we’re all equal axiom is assumed or not.
 
 # Critical Analysis
 
@@ -179,9 +229,13 @@ loans preferentially to minorities might ultimately lead to a more productive di
 ***Sree: Please add your thoughts on the tradeoff***
 
 
-***Guangzhi: Please add your thoughts on the (im)possibility***
+**On the (im)possibility of fairness**
 
+The paper [4] offers a deep dive into the puzzle of achieving fairness in algorithmic decision-making. It thoroughly outlines the conflict between different fairness criteria, demonstrating how attempts to satisfy one criterion can inadvertently violate another. This conflict is framed within the broader context of societal structures and the inherent biases embedded within them. By examining the mathematical foundations of these issues, the authors present a compelling argument that fairness cannot be a one-size-fits-all concept but is instead a multifaceted goal that requires careful consideration of the specific context and values at stake.
 
+In their exploration, the authors introduce a framework that distinguishes between construct space (the ideal measurements of attributes), observed space (the imperfect real-world measurements), and decision space (the outcomes of algorithmic decision-making). This framework is crucial for understanding how discrepancies and biases can arise at each stage of the decision-making process. The paper highlights the importance of transparency about the assumptions and values that underlie different fairness definitions, arguing that without explicit recognition of these assumptions, discussions about fairness are likely to be unproductive. This nuanced approach emphasizes the role of societal norms and values in shaping what is considered fair, suggesting that any attempt to address fairness must engage with these broader societal factors.
+
+Lastly, the paper critically examines the implications of its findings for the development and deployment of algorithmic systems. It suggests that the quest for fairness is not merely a technical challenge but also a deeply ethical one that requires ongoing critical reflection and dialogue among developers, policymakers, and affected communities. The authors advocate for a more collaborative approach to algorithmic fairness, one that involves diverse stakeholders in defining and pursuing fairness goals. This call to action underscores the need for interdisciplinary efforts to tackle the complexities of fairness, highlighting the limitations of purely technical solutions and the importance of integrating ethical considerations into the design and implementation of algorithmic systems.
 
 ## Reference
 [1]. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments. A. Chouldechova, 2016
