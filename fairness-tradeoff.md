@@ -5,12 +5,13 @@ Algorithm has been used regularly by the judges to decide whether defendants sho
 </p>
 
 # Motivation
+<p align="justify">
 The notion of fairness in the context of artificial intelligence and machine learning is a multi-faceted and complex problem that consists of several criteria and conditions. These papers discuss the need to quantify algorithmic fairness, talking about the tradeoffs that must be kept in mind, the limitations of such algorithms, and cases where achieving complete fairness can seem impossible. 
 Recently, the world of computer science is engaged in a debate regarding fairness in decision-making. Two perspectives are key to this debate: individual fairness and group fairness. Assigning the right amount of weight to each group or individual within a population to ensure unbiased results is still something that demands research. These papers, in general, emphasize the need to ensure that the tools employed by such algorithms are free from quantifiable biases that could result in differential impacts in the contexts in which they are utilized. Two of the papers [3, 4] describe the superficial conditions under which complete fairness can be achieved - though these are extremely ideal cases.  One paper [1] explains through an empirical case study the limitations of existing fairness algorithms and the need to eliminate quantifiable biases. The motivation behind [2] is to present the costs associated with algorithmic decision making and how satisfying common definitions of fairness may sacrifice some degree of public safety. Friedler et al. [4] mathematically analyzed the individual and group fairness, uncovering the assumptions needed to achieve each of the fairness definitions. The trade-off between individual equity and group non-discrimination is further illustrated, as different equity mechanisms need to be grounded in conflicting worldviews.
-
+</p>
 
 # Methods
-
+<p align="justify"> 
 There are multiple definition of algorithmic fairness. Common definitions of fairness are statistical parity, conditional statistical parity, and predictive equality. Assume that an algorithm makes decision about the defendants should be detained or release. We denote the decision as $d(x)$, where $x$ is the defendant attributes that are considered for the decision making. We assume that $X$ is the random variable that on values $X = x$ for an individual drawn randomly from the the population of defendants for whom pretrial
 decisions must be made. We can formally define the different definition of fairness as follows: 
 
@@ -25,6 +26,7 @@ decisions must be made. We can formally define the different definition of fairn
 3. **Predictive equality**: means that the accuracy of decisions is equal across race groups, as measured by false positive rate (FPR). This condition means that among defendants who would not have gone on to commit a violent crime if released, detention rates are equal across race groups. Assume that $Y$ is a random variable where $y = 1$ for those defendants who would have committed a violent crime if released, and $y = 0$ otherwise. Formally, predictive equality means
 
    $$E[d(X) | Y=0, g(X)] = E[d(X) |Y=0]$$
+</p>
 
 ## Formulation of algorithomic fairness using constrainted optimization
 
