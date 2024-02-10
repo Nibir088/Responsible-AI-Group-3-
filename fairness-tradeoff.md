@@ -209,22 +209,27 @@ Building non-discriminatory decision algorithms is shown to require a different 
 
 ***Conflicting worldviews necessitate different mechanisms.***
 
-
+<p align="justify">
 However, the authors found the two worldviews conflict with each other and the two fairness mechanisms cannot be achieved simultaneously.
 - Failure of fairness: If there is structural bias in the decision pipeline, no mechanism can guarantee fairness. Fairness can only be achieved under the WYSIWYG worldview using an individual fairness mechanism, and using a group fairness mechanism will be unfair within this worldview.
 - Failure of non-discrimination: While group fairness mechanisms were shown to achieve nondiscrimination under a structural bias worldview and the we’re all equal axiom, if structural bias is assumed, applying an individual fairness mechanism will cause discrimination in the decision space whether the we’re all equal axiom is assumed or not.
+</p>
 
 # Critical Analysis
 
 **Thoughts for Inherent Tradeoffs in Risk Assignment**
+
+<p align="justify">
 The study suggests the necessity of equalizing error rates across distinct groups in certain risk assessment scenarios, despite the potential introduction of predictive bias. Merely aligning overall error rates may not suffice, as disparities can persist within specific categories, such as prior record scores. It becomes crucial to determine the granularity at which balancing error rates is essential for fairness.
 
 One aspect of the study that could be subject to further scrutiny is the generalizability of the results. While the example provided regarding gender-based differences is illustrative, it's important to consider the broader applicability of the findings across different contexts and demographic characteristics. Additionally, the study acknowledges the need for further research to explore computational feasibility and various cost considerations for false positives and false negatives. This recognition underscores the importance of ongoing inquiry and refinement in this area.
 
 Moreover, the mathematical proof provided by the paper authors adds rigor to their conclusions and contributes to the academic discourse on fairness in risk assignments. However, mathematical models, while powerful tools, can have limitations in capturing the full complexity of real-world scenarios. Therefore, it's crucial for future research to complement mathematical analyses with empirical studies (such as in paper [1]) to gain a comprehensive understanding of fairness in risk assessment.
+</p>
 
 **Challenges of algorithomic fairness**
 
+<p align="justify">
 Author in [2] proposed constrainted optimization for algorithmic fairness. However, during the problem formulation, there are several assumption that differs from practical worlds. For instance, 
 
 - All violent crime is assumed to be equally costly. However, in practice magnitude of all offense are not similar. For instance, bank robbery and over-speeding are not equal costly in society.
@@ -233,10 +238,11 @@ Author in [2] proposed constrainted optimization for algorithmic fairness. Howev
 - The immediate utility of a decision rule might not an effective measurement for long-term costs and benefits. For instance, in the context of credit extensions, offering
 loans preferentially to minorities might ultimately lead to a more productive distribution of wealth, combating harms from historical under-investment in minority communities.
 - There are some decisions that generally are thought of as group rather than individual choices. For example, when universities admit students, they often aim to select the best group, not simply the best individual candidates, and may thus decide to deviate from a single-threshold rule in order to create diverse communities with varied perspectives and background.
-
+</p>
 
 
 **On the (im)possibility of fairness**
+
 <p align="justify"> 
 The paper [4] offers a deep dive into the puzzle of achieving fairness in algorithmic decision-making. It thoroughly outlines the conflict between different fairness criteria, demonstrating how attempts to satisfy one criterion can inadvertently violate another. This conflict is framed within the broader context of societal structures and the inherent biases embedded within them. By examining the mathematical foundations of these issues, the authors present a compelling argument that fairness cannot be a one-size-fits-all concept but is instead a multifaceted goal that requires careful consideration of the specific context and values at stake.
 
@@ -244,6 +250,7 @@ In their exploration, the authors introduce a framework that distinguishes betwe
 
 Lastly, the paper critically examines the implications of its findings for the development and deployment of algorithmic systems. It suggests that the quest for fairness is not merely a technical challenge but also a deeply ethical one that requires ongoing critical reflection and dialogue among developers, policymakers, and affected communities. The authors advocate for a more collaborative approach to algorithmic fairness, one that involves diverse stakeholders in defining and pursuing fairness goals. This call to action underscores the need for interdisciplinary efforts to tackle the complexities of fairness, highlighting the limitations of purely technical solutions and the importance of integrating ethical considerations into the design and implementation of algorithmic systems.
 </p>
+
 ## Reference
 [1]. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments. A. Chouldechova, 2016
 
