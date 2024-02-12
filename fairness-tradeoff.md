@@ -24,7 +24,7 @@ decisions must be made. We can formally define the different definition of fairn
    
 2. **Conditional statistical Parity**: indicates that controlling for a limited set of “legitimate” risk factors, an equal proportion of defendants are detained within each race group. Let, $l(x)$ is the legitimate risk associated with person $x$.
 
-   $$E[d(X) | l(X), g(X)] = E[d(X)]$$
+   $$E[d(X) | l(X), g(X)] = E[d(X)|l(x)]$$
 
 3. **Predictive equality**: means that the accuracy of decisions is equal across race groups, as measured by false positive rate (FPR). This condition means that among defendants who would not have gone on to commit a violent crime if released, detention rates are equal across race groups. Assume that $Y$ is a random variable where $y = 1$ for those defendants who would have committed a violent crime if released, and $y = 0$ otherwise. Formally, predictive equality means
 
