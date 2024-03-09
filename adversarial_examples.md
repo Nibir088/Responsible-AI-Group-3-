@@ -59,7 +59,6 @@ Authors also show that:
 
 ## Experimenation Results
 
-## Results
 
 __Linear Model Training__
 
