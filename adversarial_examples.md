@@ -100,8 +100,68 @@ To support the linear explanation for the existence of adversarial examples prop
 - The existence of adversarial examples suggests that deep learning models may not truly understand the underlying concepts they are trained on, but rather rely on patterns that are brittle to small perturbations.
 - Developing optimization procedures that can train more non-linear models may be necessary to escape the trade-off between ease of optimization and robustness to adversarial examples.
 
-## Paper 32
+# Paper 32
 
-## Paper 33
+# Paper 33
 
-## Paper 34
+# Paper 34 (Adversarial Examples Are Not Bugs, They Are Features)
+
+## Introduction / Motivation
+Adversarial examples have attracted significant attention in machine learning, but the reasons for their existence and pervasiveness remain unclear.
+
+## Methods
+### Problem setup
+Consider binary classification, where input-label pairs $(x, y) \in \mathcal{X} \times \{\pm 1\}$ are sampled from a (data) distribution $\mathcal{D}$; the goal is to learn a classifier $C : \mathcal{X} \rightarrow \{\pm 1\}$ which predicts a label $y$ corresponding
+to a given input $x$. Features are function mappings from the input space to the real numbers.
+
+### Useful, robust, and non-robust features
+- **$\rho$-useful features**: A feature $f$ is $\rho$-useful ($\rho > 0$) if it is correlated with the true label in expectation, that is if $$\mathbb{E}_{(x,y)\sim\mathcal{D}}[y \cdot f(x)] \geq \rho.$$
+- **$\gamma$-robustly useful features**: A $\rho$-useful feature $f$ is a robust feature ($\gamma$-robustly useful feature for $\gamma > 0$) if under adversarial perturbation (for some specified set of valid perturbations $\Delta$) $f$ remains $\gamma$-useful. Formally, if we have that $$\mathbb{E}_{(x,y)\sim\mathcal{D}}[\inf_{\delta \in \Delta(x)} y \cdot f(x + \delta)] \geq \gamma.$$
+- **Useful non-robust features**: These features are $\rho$-useful for some $\rho$ bounded away from zero but are not $\gamma$-robust for any $\gamma \geq 0$.
+
+### Robust and Non-Robust Feature Disentanglement
+The authors isolated robust features through the generation of a new dataset derived from a robustly trained model. This dataset emphasizes only those features deemed relevant by the model. The process hinges on an optimization strategy aimed at minimizing the discrepancy between the activations produced by the original input, $x$, and its transformed version, $x_R$, in the penultimate layer of the model. The optimization goal is formulated as follows:
+$$x_{r} = \underset{x_r}{\text{argmin}} \; \|g(x_r) - g(x)\|_2,$$
+where $g$ denotes the mapping from an input to its representation in the robust model's penultimate layer. The robust training set is termed as $\hat{\mathcal{D}}_R$.
+
+A non-roust training set $\hat{\mathcal{D}}_{NR}$ is alse constructed by utilizing features from a standard model (instead of a robust one).
+
+<p align="center">
+  <img src="img/Mar_13/paper34_robust_and non_robust.png" alt="Description of the image" width="75%">
+</p>
+
+### Non-Robust Feature Consruction for Standard Classification
+To demonstrate the capability of non-robust features to enable significant classification accuracy on standard test sets, the authors curated a dataset such that the connection between inputs and labels relies exclusively on non-robust features. To achieve this, adversarial modifications were applied to each input $x$ to produce $x_{\text{adv}}$, ensuring classification as a specific target class $t$. The modification process is defined by the optimization problem:
+$$x_{\text{adv}} = \underset{x' : \|x' - x\|_2 \leq \epsilon}{\text{argmin}} \; L_{C}(x', t),$$
+with $L_{C}$ representing the loss under a standard classifier $C$ and $\epsilon$ denoting the allowable perturbation magnitude.
+
+<p align="center">
+  <img src="img/Mar_13/paper34_non_robust.png" alt="Description of the image" width="60%">
+</p>
+
+## Results / Key Findings
+
+- **Disentangling Robust and Non-Robust Features**: Robust features contribute to the model's generalization ability in an adversarial setting, whereas non-robust features, although highly predictive, lead to vulnerability. Through experiments, the authors show it is possible to construct datasets that emphasize either robust or non-robust features, influencing the trained model's adversarial robustness or lack thereof.
+
+<p align="center">
+  <img src="img/Mar_13/paper34_result_1.png" alt="Description of the image" width="75%">
+</p>
+
+- **Non-Robust Features Suffice for Standard Classification**: Surprisingly, models trained on data that appears mislabeled to humans (but is aligned with non-robust features) still achieve high accuracy on standard test sets. This underscores the non-intuitive power of non-robust features in driving model predictions, challenging traditional notions of what constitutes useful data for learning.
+
+<p align="center">
+  <img src="img/Mar_13/paper34_result_2.png" alt="Description of the image" width="60%">
+</p>
+
+- **Transferability Arising from Non-Robust Features**: The paper delves into the phenomenon of adversarial transferability, where adversarial examples crafted for one model effectively fool another. This transferability is attributed to models learning similar non-robust features from the data, further emphasizing the intrinsic connection between adversarial examples and non-robust features.
+
+
+<p align="center">
+  <img src="img/Mar_13/paper34_result_3.png" alt="Description of the image" width="65%">
+</p>
+
+These findings underscore the nuanced relationship between model accuracy, robustness, and the types of features learned during training. The work suggests that achieving both high accuracy and robustness may require rethinking how models are trained and the features they prioritize.
+
+## Critical Analysis
+
+The research brings to light a groundbreaking perspective on adversarial examples in machine learning, showcasing that these examples aren't mere glitches but are indicative of "non-robust features" intrinsic to datasets. These features, although predictive, are fragile and easily exploitable by adversarial attacks, thus highlighting a fundamental misalignment between machine learning models' optimization for accuracy and the nuanced concept of robustness from a human perspective.
