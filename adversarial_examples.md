@@ -127,7 +127,7 @@ where $g$ denotes the mapping from an input to its representation in the robust 
 A non-roust training set $\hat{\mathcal{D}}_{NR}$ is alse constructed by utilizing features from a standard model (instead of a robust one).
 
 <p align="center">
-  <img src="img/Mar_13/paper34_robust_and non_robust.png" alt="Description of the image" width="75%">
+  <img src="img/Mar_13/paper34_robust_and non_robust.png" alt="Description of the image" width="50%">
 </p>
 
 ### Non-Robust Feature Consruction for Standard Classification
@@ -136,7 +136,7 @@ $$x_{\text{adv}} = \underset{x' : \|x' - x\|_2 \leq \epsilon}{\text{argmin}} \; 
 with $L_{C}$ representing the loss under a standard classifier $C$ and $\epsilon$ denoting the allowable perturbation magnitude.
 
 <p align="center">
-  <img src="img/Mar_13/paper34_non_robust.png" alt="Description of the image" width="60%">
+  <img src="img/Mar_13/paper34_non_robust.png" alt="Description of the image" width="40%">
 </p>
 
 ## Results / Key Findings
@@ -144,20 +144,20 @@ with $L_{C}$ representing the loss under a standard classifier $C$ and $\epsilon
 - **Disentangling Robust and Non-Robust Features**: Robust features contribute to the model's generalization ability in an adversarial setting, whereas non-robust features, although highly predictive, lead to vulnerability. Through experiments, the authors show it is possible to construct datasets that emphasize either robust or non-robust features, influencing the trained model's adversarial robustness or lack thereof.
 
 <p align="center">
-  <img src="img/Mar_13/paper34_result_1.png" alt="Description of the image" width="75%">
+  <img src="img/Mar_13/paper34_result_1.png" alt="Description of the image" width="45%">
 </p>
 
 - **Non-Robust Features Suffice for Standard Classification**: Surprisingly, models trained on data that appears mislabeled to humans (but is aligned with non-robust features) still achieve high accuracy on standard test sets. This underscores the non-intuitive power of non-robust features in driving model predictions, challenging traditional notions of what constitutes useful data for learning.
 
 <p align="center">
-  <img src="img/Mar_13/paper34_result_2.png" alt="Description of the image" width="60%">
+  <img src="img/Mar_13/paper34_result_2.png" alt="Description of the image" width="30%">
 </p>
 
 - **Transferability Arising from Non-Robust Features**: The paper delves into the phenomenon of adversarial transferability, where adversarial examples crafted for one model effectively fool another. This transferability is attributed to models learning similar non-robust features from the data, further emphasizing the intrinsic connection between adversarial examples and non-robust features.
 
 
 <p align="center">
-  <img src="img/Mar_13/paper34_result_3.png" alt="Description of the image" width="65%">
+  <img src="img/Mar_13/paper34_result_3.png" alt="Description of the image" width="35%">
 </p>
 
 These findings underscore the nuanced relationship between model accuracy, robustness, and the types of features learned during training. The work suggests that achieving both high accuracy and robustness may require rethinking how models are trained and the features they prioritize.
