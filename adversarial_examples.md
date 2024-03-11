@@ -149,9 +149,25 @@ The paper focuses on the vulnerability of neural networks to adversarial example
 
 ## Methodology
 The methodology involves creating three novel attack algorithms tailored to different distance metrics (L0, L2, and L∞), which are commonly used in the literature to measure perturbations in adversarial examples. Each attack algorithm is meticulously designed to efficiently find adversarial examples that are minimally distant from original inputs according to their respective metrics, ensuring high success rates across both distilled and undistilled neural networks. 
-- L2 Attack: 
-- 
-- 
+
+The paper describes the optimization process selecting appropriate objective functions and handling box constraints to ensure the perturbed inputs remain valid images. Furthermore, the authors incorporate a strategic variation in the temperature parameter used in the softmax function during defensive distillation, analyzing its impact on the robustness of neural networks. The novel attacks proposed are describes as follows:
+
+- **$L_{2}$ Attack**: It uses multiple starting-point gradient descent to 
+
+<p align="center">
+  <img src="img/attack1.png" alt="Description of the image">
+</p>
+where for given $x$, a target class $t$ is chosen and variable $w$ is optimized. $f$ is based on the best objective function, modified slightly so that the confidence with which the misclassification occurs can be controlled using $κ$. The parameter κ encourages the solver to find an adversarial instance $x'$ that will be classified as class t with high confidence.
+
+- **$L_{0}$ Attack**:  It uses an iterative algorithm to identify pixels that don’t have much effect on the classifier output and then fixes those pixels, so their value will never be changed. By process of elimination, the algorithm identifies a minimal subset of pixels that can be modified to generate an adversarial example. In each iteration, $L_{2}$ attack is used to identify which pixels are unimportant. 
+
+- **$L_{\infty}$ Attack** : It is also an iterative attack. It introduces $\tau$, and gives penality for every term that exceeds $\tau$, preventing oscillations. 
+<p align="center">
+  <img src="img/attack3.png" alt="Description of the image">
+</p>
+
+After each iteration, if $\delta_i < \tau$  for all $i$, we reduce $\tau$ by a factor of 0.9 and repeat; otherwise, we terminate the search. Constant $c$ is chosen to use for the $L_\infty$ adversary, by initially setting $c$ to a very low value. Afterwards $L_\infty$ adversary at this $c$-value is run. If 
+it fails, $c$ is doubled, until it is successful. The search is aborted if $c$ exceeds a fixed threshold.
 
 ## Conclusion/Critical Analysis
 - The comprehensive evaluation demonstrates that defensive distillation, despite previously reported successes, does not significantly enhance the robustness of neural networks against sophisticated adversarial examples crafted using their novel attack algorithms. 
@@ -166,6 +182,7 @@ The methodology involves creating three novel attack algorithms tailored to diff
 -	The methodology is thorough, detailing optimized attack strategies against distilled networks and commendably using various distance metrics for a broad analysis of adversarial examples' impact on neural networks.
 -	However, the paper's focus on defensive distillation exclusively as a defense mechanism could be seen as a limitation. A more holistic approach that evaluates the proposed attacks against a wider range of defense mechanisms could provide a more comprehensive view of their effectiveness and the overall robustness of neural networks.
 -	Further research is needed to explore the practical implementation of adversarial attacks and develop defenses that meet real-world operational requirements of machine learning applications.
+
 
 
 
