@@ -169,6 +169,27 @@ where for given $x$, a target class $t$ is chosen and variable $w$ is optimized.
 After each iteration, if $\delta_i < \tau$  for all $i$, we reduce $\tau$ by a factor of 0.9 and repeat; otherwise, we terminate the search. Constant $c$ is chosen to use for the $L_\infty$ adversary, by initially setting $c$ to a very low value. Afterwards $L_\infty$ adversary at this $c$-value is run. If 
 it fails, $c$ is doubled, until it is successful. The search is aborted if $c$ exceeds a fixed threshold.
 
+## Findings
+The folowing Tables demonstrate the effictiveness of attacks on certain datasets. The results found in Table IV are for MNIST and CIFAR, and Table V for ImageNet. Regardless of the amount of modification necessary, an attack is successful if it results in an adversarial example with the right target label. Failure denotes a situation in which the attack was wholly unsuccessful.
+Assessment is done using CIFAR and MNSIT on the first 1,000 photos in the test set. Also, on 1,000 photos on ImageNet that Inception v3 12 initially properly classified. Using ImageNet, 100 target classes (10%) were randomly selected to approximate the best-case and worst-case outcomes.
+
+
+<p align="center">
+  <img src="img/table4.png" alt="Description of the image">
+</p>
+
+<p align="center">
+  <img src="img/table5.png" alt="Description of the image">
+</p>
+
+In Table VI, the attacks are applied to distillation. All of the previous attacks fail to find adversarial examples. In contrast, the proposed attacks succeeds with 100% success probability for each of the three distance metrics.
+When compared to Table IV, distillation has added almost no value: the $L_{0}$ and $L2_{2}$ attacks perform slightly worse, and our $L_{\infty}$ attack performs approximately equally. All of the novel attacks succeed with 100% success.
+
+<p align="center">
+  <img src="img/table6.png" alt="Description of the image">
+</p>
+
+
 ## Conclusion/Critical Analysis
 - The comprehensive evaluation demonstrates that defensive distillation, despite previously reported successes, does not significantly enhance the robustness of neural networks against sophisticated adversarial examples crafted using their novel attack algorithms. 
 
