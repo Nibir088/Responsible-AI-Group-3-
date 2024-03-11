@@ -143,7 +143,13 @@ To support the linear explanation for the existence of adversarial examples prop
 
 # Paper 32
 
-# Paper 33
+# Paper 33 (Adversarial examples in the physical world)
+
+## Introduction/ Motivation
+The rapid integration of machine learning (ML) into various aspects of technology, especially those reliant on sensory data (such as images from cameras for classification tasks), has spotlighted significant vulnerabilities. These systems are susceptible to adversarial examples—subtly modified input data designed to cause incorrect model classification. Such vulnerabilities are not merely academic curiosities; they represent tangible security risks in real-world applications. Previous research predominantly explored adversarial attacks within digital domains, assuming direct access to the ML model's input. This paper shifts focus towards a more challenging and realistic scenario where adversarial examples interact with physical-world systems, such as those interpreting sensory data, without direct digital input manipulation. Demonstrating the persistence of these vulnerabilities in physical contexts highlights an urgent need for robust defenses in ML deployments across various sectors.
+
+## Methods
+
 
 # Paper 34 (Adversarial Examples Are Not Bugs, They Are Features)
 
