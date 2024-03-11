@@ -149,7 +149,19 @@ To support the linear explanation for the existence of adversarial examples prop
 The rapid integration of machine learning (ML) into various aspects of technology, especially those reliant on sensory data (such as images from cameras for classification tasks), has spotlighted significant vulnerabilities. These systems are susceptible to adversarial examples—subtly modified input data designed to cause incorrect model classification. Such vulnerabilities are not merely academic curiosities; they represent tangible security risks in real-world applications. Previous research predominantly explored adversarial attacks within digital domains, assuming direct access to the ML model's input. This paper shifts focus towards a more challenging and realistic scenario where adversarial examples interact with physical-world systems, such as those interpreting sensory data, without direct digital input manipulation. Demonstrating the persistence of these vulnerabilities in physical contexts highlights an urgent need for robust defenses in ML deployments across various sectors.
 
 ## Methods
+Below are the basic notations followed: 
 
+- **X**: An image, which is typically a 3-D tensor (width × height × depth). We assume that the values of the pixels are integer numbers in the range [0, 255].
+
+- **y_true**: The true class for the image \(X\).
+
+- **J(X, y)**: The cross-entropy cost function of the neural network, given image \(X\) and class \(y\). We intentionally omit network weights (and other parameters) in the cost function because we assume they are fixed (to the value resulting from training the machine learning model) in the context of the paper. For neural networks with a softmax output layer, the cross-entropy cost function applied to integer class labels equals the negative log-probability of the true class given the image: \(J(X, y) = -\log p(y | X)\), this relationship will be used below.
+
+- **Clip_X_X**: A function which performs per-pixel clipping of the image \(X\), so the result will be in \(L_\infty\)-neighbourhood of the source image \(X\). The exact clipping equation is as follows:
+
+$$
+\text{Clip}_{X'}(X)_{(x, y, z)} = \min(255, X_{(x, y, z)} + \max(0, X'_{(x, y, z)} - X_{(x, y, z)}))
+$$
 
 # Paper 34 (Adversarial Examples Are Not Bugs, They Are Features)
 
