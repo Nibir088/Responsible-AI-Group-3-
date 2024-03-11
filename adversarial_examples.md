@@ -324,16 +324,15 @@ The research brings to light a groundbreaking perspective on adversarial example
 # Merged Output
 
 # Introduction
-We will discuss the susceptibility of deep neural networks to adversarial attacks. In addition, we will offer insights into their vulnerabilities and strategies to enhance robustness. We further explain novel attack algorithms and critical analysis of existing defenses. This algorithm aims to advance the field's understanding and implementation of effective countermeasures. To do so, we summarize five relevant papaers as follows:
+We will discuss the susceptibility of deep neural networks to adversarial attacks. In addition, we will offer insights into their vulnerabilities and strategies to enhance robustness. We further explain novel attack algorithms and critical analysis of existing defenses. This algorithm aims to advance the field's understanding and implementation of effective countermeasures. To do so, we summarize five relevant papers as follows:
 
 - DNNs excel in pattern recognition but lack transparency, motivating investigation into adversarial vulnerabilities (paper [1]).
-- Research challenges notions on adversarial examples' rarity and explores root causes and mitigation strategies (paper [2]).
-- Defensive distillation's insufficiency in countering adversarial attacks prompts exploration of novel defenses (paper [3]).
-- Shifts focus to real-world scenarios, highlighting vulnerabilities in physical-world ML deployments (paper [4]).
+- Research challenges notions about adversarial examples' rarity and explores root causes and mitigation strategies (paper [2]).
+- Defensive distillation's insufficiency in countering adversarial attacks prompts the exploration of novel defenses (paper [3]).
+- Shifts focus on real-world scenarios, highlighting vulnerabilities in physical-world ML deployments (paper [4]).
 - Despite significant attention, the underlying reasons for adversarial examples' existence remain elusive (paper [5]).
 
 To understand the adversarial examples, we show an example below:
-
 <p align="center">
   <img src="img/gibbon.png" alt="Description of the image">
 </p>
@@ -344,7 +343,7 @@ the sign of the elements of the gradient of the cost function with respect to th
 # Motivation
 
 
-Adversarial examples are inputs intentionally crafted to mislead the model into making incorrect classifications with high confidence. Despite the remarkable capabilities of DNNs in tasks like image and speech recognition, their inner workings can be unclear and difficult for humans to interpret. Therefore, it poses concerns in critical applications where decision-making transparency is crucial. Previously explanations for adversarial examples centered on the extreme non-linearity and overfitting of neural networks. It is also believed that they are rare and sparsely distributed across the input space. To make robust model against such adversarial examples, defensive distillation (previously thought to enhance network robustness) is scrutinized. It is evident that this model is insufficiency in mitigating adversarial attacks. Therefore authors [3] introduce three new attack algorithms, effective across different distance metrics, demonstrating higher success rates compared to existing techniques. This emphasizes the need for improved methods to evaluate and suggests that defenses should be tested against more potent attacks. In recent times, machine learning becomes increasingly integrated into various technologies and vulnerabilities to adversarial examples pose significant security risks. Previous research primarily focused on digital domain attacks, while paper [4] addresses the challenges posed by adversarial examples interacting with physical-world systems. It emphasizes the urgent need for robust defenses across sectors. Therefore ongoing research is crucial as the causes and prevalence of adversarial examples in machine learning remain unclear despite significant attention in the community. Presence of adversarial examples in physical world is shown in the figure below:
+Adversarial examples are inputs intentionally crafted to mislead the model into making incorrect classifications with high confidence. Despite the remarkable capabilities of DNNs in tasks like image and speech recognition, their inner workings can be unclear and difficult for humans to interpret. Therefore, it poses concerns in critical applications where decision-making transparency is crucial. Previously, explanations for adversarial examples centered on the extreme non-linearity and overfitting of neural networks. It is also believed that they are rare and sparsely distributed across the input space. To make a robust model against such adversarial examples, defensive distillation (previously thought to enhance network robustness) is scrutinized. It is evident that this model is insufficient for mitigating adversarial attacks. Therefore, authors [3] introduce three new attack algorithms that are effective across different distance metrics, demonstrating higher success rates compared to existing techniques. This emphasizes the need for improved methods of evaluation and suggests that defenses should be tested against more potent attacks. In recent times, machine learning has become increasingly integrated into various technologies, and vulnerabilities to adversarial examples pose significant security risks. Previous research primarily focused on digital domain attacks, while the paper [4] addresses the challenges posed by adversarial examples interacting with physical-world systems. It emphasizes the urgent need for robust defenses across sectors. Therefore, ongoing research is crucial, as the causes and prevalence of adversarial examples in machine learning remain unclear despite significant attention in the community. The presence of adversarial examples in the physical world is shown in the figure below:
 
 <p align="center">
   <img src="img/example1.png" alt="Description of the image">
@@ -379,32 +378,32 @@ $$x' = \arg\max \langle \mathbf{\Phi}(x), \nu \rangle$$
 
 ### Key Findings
 
-There are two important properties as follows:
+There are two important properties, as follows:
 
 - The paper says that when we look at the individual parts of neural networks, like specific neurons, they don't seem to be doing anything special on their own. Instead, it's the overall pattern of connections in the network that matters more for understanding the meaning of things.
 This property is concerned with the semantic information of individual units. (Semantic information: understanding what the network has learned and how it represents concepts or features in the data it's trained on)
 An example of the Property 1: Let's say we have a neural network trained to recognize different types of animals in images. The first property mentioned in the paper suggests that when we look at the individual neurons or units in the network, we might expect each one to represent a specific feature of an animal, such as a certain shape or color.
 However, the research finds that if we look at what makes each neuron "light up" the most (meaning, what kind of input image makes it activate strongly), it's not always straightforward to interpret what that neuron represents. For example, a neuron might activate strongly for images of both cats and dogs, or it might activate for completely unrelated things like trees or cars.
 - This property is concerned with a DNN’s performance against adversarial examples (inputs that have been intentionally and slightly perturbed that may cause a DNN to produce incorrect outputs).
-Consider a state-of-the-art deep neural network that generalises well on an object recognition task. We expect such a network to be robust to small perturbations of its input, because small perturbations cannot change the object category of an image. However, we find that applying an imperceptible non-random perturbation to a test image, it is possible to arbitrarily change the network’s prediction (see figure 5). These perturbations are found by optimising the input to maximise the prediction error.
+Consider a state-of-the-art deep neural network that generalizes well on an object recognition task. We expect such a network to be robust to small perturbations of its input because small perturbations cannot change the object category of an image. However, we find that by applying an imperceptible non-random perturbation to a test image, it is possible to arbitrarily change the network’s prediction (see figure 5). These perturbations are found by optimizing the input to maximize the prediction error.
 
 ## Explanation of Adversarial Examples
 
-First, authors argue that the primary cause of neural networks' vulnerability to adversarial perturbations is their linear nature, rather than their non-linearity or overfitting, as previously hypothesized. They propose a linear explanation for the existence of adversarial examples.
+First, authors argue that the primary cause of neural networks' vulnerability to adversarial perturbations is their linear nature rather than their non-linearity or overfitting, as previously hypothesized. They propose a linear explanation for the existence of adversarial examples.
 
 In many problems, the precision of individual input features is limited. For example, digital images often use only 8 bits per pixel, discarding information below 1/255 of the dynamic range. Because the precision of the features is limited, it is not rational for the classifier to respond differently to an input `x` and an adversarial input `x̃ = x + η` if every element of the perturbation `η` is smaller than the precision of the features.
 
 __Simple Linear Model__: Consider the dot product between a weight vector `w` and an adversarial example `x̃`: w<sup>T</sup> `x̃` = w<sup>T</sup> `x` + w<sup>T</sup>η
-The adversarial perturbation η causes the activation to grow by w<sup>T</sup> η. We can maximize this increase subject to the max norm constraint on η by assigning η = sign(w). If w has n dimensions and the average magnitude of an element of the weight vector is m, then the activation will grow by mn. It does not grow with the dimensionality of the problem, but the change in activation caused by perturbation by η can grow linearly with n, then for high-dimensional problems, we can make many infinitesimal changes to the input that add up to one large change to the output. This happen because ||η||<sub>∞<sub>. 
+The adversarial perturbation η causes the activation to grow by w<sup>T</sup> η. We can maximize this increase subject to the max norm constraint on η by assigning η = sign(w). If w has n dimensions and the average magnitude of an element of the weight vector is m, then the activation will grow by mn. It does not grow with the dimensionality of the problem, but the change in activation caused by perturbation by η can grow linearly with n, then for high-dimensional problems, we can make many infinitesimal changes to the input that add up to one large change to the output. This happens because ||η||<sub>∞<sub>. 
 
 This explanation shows that a simple linear model can have adversarial examples if its input has sufficient dimensionality. The authors argue that neural networks, which are intentionally designed to behave linearly for optimization purposes, are also vulnerable to adversarial perturbations due to their linear nature.
 
-__Complex Deep Model__: Let `x` be the input, `θ` be the model parameters, `y` be the targets, and `J(θ, x, y)` be the cost function. The "fast gradient sign method" for generating adversarial examples is: 
-  $$η = ϵ × sign(∇_x J(θ, x, y))$$
-Here ϵ is a small constant, and sign(∇_x J(θ, x, y)) is the sign of the gradient of the cost with respect to the input. The perturbed input `x̃` = x + η is likely to be misclassified. 
+__Complex Deep Model__: Let `x` be the input, `θ` be the model parameters, `y` be the targets, and `J(θ, x, y)` be the cost function. The "fast gradient sign method" for generating adversarial examples is: 
+  $$η = ϵ × sign(∇_x J(θ, x, y))$$
+Here ϵ is a small constant, and sign(∇_x J(θ, x, y)) is the sign of the gradient of the cost with respect to the input. The perturbed input `x̃` = x + η is likely to be misclassified. 
 
 
-__Alternative Hypotheses__: Authors further investigate the possibility of other explanations. To support the linear explanation for the existence of adversarial examples proposed by the authors and refute other hypotheses, the authors shows that adversarial examples occur reliably for almost any sufficiently large value of ε. Note that the perturbation is in the correct direction (determined by the sign of the gradient). They also show that correct classifications occur only on a thin manifold where the input occurs in the data distribution. In addition, they show that most of the high-dimensional input space consists of adversarial examples and "rubbish" class examples that are confidently misclassified by the model. The result is shown in the following figure.
+__Alternative Hypotheses__: The authors further investigate the possibility of other explanations. To support the linear explanation for the existence of adversarial examples proposed by the authors and refute other hypotheses, the authors show that adversarial examples occur reliably for almost any sufficiently large value of ε. Note that the perturbation is in the correct direction (determined by the sign of the gradient). They also show that correct classifications occur only on a thin manifold where the input occurs in the data distribution. In addition, they show that most of the high-dimensional input space consists of adversarial examples and "rubbish" class examples that are confidently misclassified by the model. The result is shown in the following figure.
 
 <p align="center">
   <img src="img/effect_of_eta.png" alt="Description of the image">
@@ -432,13 +431,14 @@ __Deep Model__: For deep model, the authors propose adversarial training, where 
   
 where α controls the balance between clean and adversarial examples.
 
-The key idea is to continually update the supply of adversarial examples to make them resistant to the current version of the model. This approach means that the model is trained on a mixture of clean and adversarial examples, with the adversarial examples being generated on-the-fly using the fast gradient sign method.
+The key idea is to continually update the supply of adversarial examples to make them resistant to the current version of the model. This approach means that the model is trained on a mixture of clean and adversarial examples, with the adversarial examples being generated on the fly using the fast gradient sign method.
 
 Authors also show that:
 
 - During training, the model learns to resist adversarial perturbations by adjusting its parameters to minimize the adversarial objective function. This can be seen as a form of active learning, where the model requests labels on new points (adversarial examples) to improve its robustness.
 - This training can provide an additional regularization benefit beyond that provided by techniques like dropout.
 - This can improve the model's robustness against adversarial examples without sacrificing accuracy on clean inputs.
+
 
 
 ### Results of Adversarial Training
@@ -583,41 +583,29 @@ These findings underscore the nuanced relationship between model accuracy, robus
 
 ## Conclusion
 
-In summary, this paper explores two key aspects of deep neural networks and how they can be tricked by subtle changes in data. Firstly, it points out that individual parts of these networks, like specific neurons, don't always represent clear features on their own. Instead, it's the overall connections between these parts that matter most for understanding how the network works.
+In this blog, **first** we points out that individual parts of DNN, like specific neurons, don't always represent clear features on their own. Instead, it's the overall connections between these parts that matter most for understanding how the network works. We also discuss how deep neural networks can make mistakes when faced with tiny alterations to their input data. Even small changes that humans can't notice can cause these networks to give completely wrong answers. This highlights the need for more reliable and stable neural network models, especially in tasks like image recognition. **Second**, we provide valuable insights into how neural networks learn and make decisions. These findings challenge some of the assumptions we've had about how neural networks function and how they should be trained.
+**Third**, The comprehensive evaluation demonstrates that defensive distillation, despite previously reported successes, does not significantly enhance the robustness of neural networks against sophisticated adversarial examples crafted using their novel attack algorithms. **Lastly**, utilizing cell-phone camera images as inputs to the Inception v3 image classification neural network, we discuss that a considerable proportion of specially crafted adversarial images remain misclassified even after being captured through a camera lens. This significant finding highlights the potential vulnerability of machine learning systems to adversarial attacks in physical environments. The future research will extend these findings beyond printed images, encompassing various physical objects and targeting different types of machine learning models, including advanced reinforcement learning agents. Additionally, exploring attacks that do not require knowledge of the model's parameters and architecture—leveraging the transferability of adversarial examples—as well as attacks that account for physical transformations in their design, will be crucial. 
 
-Secondly, the paper discusses how deep neural networks can make mistakes when faced with tiny alterations to their input data. Even small changes that humans can't notice can cause these networks to give completely wrong answers. This highlights the need for more reliable and stable neural network models, especially in tasks like image recognition.
-
-The experiments done in the paper, particularly on datasets like MNIST, provide valuable insights into how neural networks learn and make decisions. These findings challenge some of the assumptions we've had about how neural networks function and how they should be trained.
-
+## Critical Analysis
+### Explanation of adversarial examples 
 - Adversarial examples are a result of models being too linear, rather than too non-linear or overfitting, as previously thought.
 - The generalization of adversarial examples across different models can be explained by the models learning similar linear functions when trained on the same task.
 - Linear models lack the capacity to resist adversarial perturbations, while models with hidden layers (where the universal approximator theorem applies) can potentially learn to resist adversarial examples through adversarial training.
 - The existence of adversarial examples suggests that deep learning models may not truly understand the underlying concepts they are trained on, but rather rely on patterns that are brittle to small perturbations.
 - Developing optimization procedures that can train more non-linear models may be necessary to escape the trade-off between ease of optimization and robustness to adversarial examples.
-
-## Conclusion/Critical Analysis
-- The comprehensive evaluation demonstrates that defensive distillation, despite previously reported successes, does not significantly enhance the robustness of neural networks against sophisticated adversarial examples crafted using their novel attack algorithms. 
-
-- The authors' three tailored attacks (for L0, L2, and L∞ metrics) consistently achieve 100% success rates on both distilled and undistilled networks, showcasing that these attacks can bypass distillation defenses more effectively and with less perturbation than existing methods. 
-
-- Furthermore, their work emphasizes the critical need for more reliable metrics and methods for evaluating neural network robustness. They advocate for the development of neural networks that can resist not just current but future, potentially more powerful adversarial attacks. For this, the authors encourage the use of following evaluation approaches :
+### Robustness of a model against adversarial Attack
+- The authors' (paper [3]) three tailored attacks (for L0, L2, and L∞ metrics) consistently achieve 100% success rates on both distilled and undistilled networks, showcasing that these attacks can bypass distillation defenses more effectively and with less perturbation than existing methods. Furthermore, their work emphasizes the critical need for more reliable metrics and methods for evaluating neural network robustness. They advocate for the development of neural networks that can resist not just current but future, potentially more powerful adversarial attacks. For this, the authors encourage the use of following evaluation approaches :
   - Employ a potent attack (such the ones this study suggests) to assess the secured model's robustness directly. Defenders should make cautious to create robustness against the L2 distance metric because stopping our L2 attack will stop our other attacks. 
   - By building high-confidence adversarial cases on an unsecured model and demonstrating that they are unable to transfer to the secured model, one can demonstrate the failure of transferability.
-
-### Critical Analysis
 -	The methodology is thorough, detailing optimized attack strategies against distilled networks and commendably using various distance metrics for a broad analysis of adversarial examples' impact on neural networks.
 -	However, the paper's focus on defensive distillation exclusively as a defense mechanism could be seen as a limitation. A more holistic approach that evaluates the proposed attacks against a wider range of defense mechanisms could provide a more comprehensive view of their effectiveness and the overall robustness of neural networks.
 -	Further research is needed to explore the practical implementation of adversarial attacks and develop defenses that meet real-world operational requirements of machine learning applications.
 
-## Findings and discussion
-The study found that "fast" adversarial images exhibit greater resilience to photo transformation compared to those produced by iterative methods, indicating that subtle perturbations are more susceptible to being negated. Interestingly, the adversarial destruction rate was occasionally higher in prefiltered scenarios, suggesting that high-confidence, subtle adversarial examples might not endure real-world conditions as effectively as those with more pronounced modifications. Adjustments in brightness and contrast had minimal impact on the adversarial examples, with destruction rates for fast and basic iterative methods below 5%, and under 20% for the iterative least-likely class method. Transformations involving blur, noise, and JPEG encoding led to significantly higher destruction rates, especially for iterative methods where rates could reach 80-90%. However, no transformation achieved a 100% destruction rate, aligning with findings from photo transformation experiments. Despite the challenges, a notable portion of adversarial examples still succeeded in misclassifying after undergoing photo transformation, underscoring the potential threat posed by physical adversarial attacks in real-world settings.
+### Adversaial examples in physical world
+The study (paper [4]) found that "fast" adversarial images exhibit greater resilience to photo transformation compared to those produced by iterative methods, indicating that subtle perturbations are more susceptible to being negated. Interestingly, the adversarial destruction rate was occasionally higher in prefiltered scenarios, suggesting that high-confidence, subtle adversarial examples might not endure real-world conditions as effectively as those with more pronounced modifications. Adjustments in brightness and contrast had minimal impact on the adversarial examples, with destruction rates for fast and basic iterative methods below 5%, and under 20% for the iterative least-likely class method. Transformations involving blur, noise, and JPEG encoding led to significantly higher destruction rates, especially for iterative methods where rates could reach 80-90%. However, no transformation achieved a 100% destruction rate, aligning with findings from photo transformation experiments. Despite the challenges, a notable portion of adversarial examples still succeeded in misclassifying after undergoing photo transformation, underscoring the potential threat posed by physical adversarial attacks in real-world settings.
 
-## Conclusion and Future work
-Utilizing cell-phone camera images as inputs to the Inception v3 image classification neural network, they demonstrated that a considerable proportion of specially crafted adversarial images remain misclassified even after being captured through a camera lens. This significant finding highlights the potential vulnerability of machine learning systems to adversarial attacks in physical environments. The future research to extend these findings beyond printed images, encompassing various physical objects and targeting different types of machine learning models, including advanced reinforcement learning agents. Additionally, exploring attacks that do not require knowledge of the model's parameters and architecture—leveraging the transferability of adversarial examples—as well as attacks that account for physical transformations in their design, will be crucial. 
-
-## Critical Analysis
-
-The research brings to light a groundbreaking perspective on adversarial examples in machine learning, showcasing that these examples aren't mere glitches but are indicative of "non-robust features" intrinsic to datasets. These features, although predictive, are fragile and easily exploitable by adversarial attacks, thus highlighting a fundamental misalignment between machine learning models' optimization for accuracy and the nuanced concept of robustness from a human perspective.
+### Non-robust features
+The research (paper [5]) brings to light a groundbreaking perspective on adversarial examples in machine learning, showcasing that these examples aren't mere glitches but are indicative of "non-robust features" intrinsic to datasets. These features, although predictive, are fragile and easily exploitable by adversarial attacks, thus highlighting a fundamental misalignment between machine learning models' optimization for accuracy and the nuanced concept of robustness from a human perspective.
 
 
 [1]. Intriguing properties of neural networks. Szegedy et al. 2013
