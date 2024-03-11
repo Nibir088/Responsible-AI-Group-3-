@@ -156,16 +156,10 @@ Below are the basic notations followed:
 - **y_true**: The true class for the image \(X\).
 
 - **J(X, y)**: The cross-entropy cost function of the neural network, given image \(X\) and class \(y\). We intentionally omit network weights (and other parameters) in the cost function because we assume they are fixed (to the value resulting from training the machine learning model) in the context of the paper. For neural networks with a softmax output layer, the cross-entropy cost function applied to integer class labels equals the negative log-probability of the true class given the image: \(J(X, y) = -\log p(y | X)\), this relationship will be used below.
+- **$Clip_{X,\epsilon}{\{X'\}}$**: A function which performs per-pixel clipping of the image \(X\), so the result will be in\(L_{\infty}\) \epsilon neighbourhood of the source image \(X\). The exact clipping equation is as follows:
+  
 
-The `ClipX,X` function performs per-pixel clipping of the image \(X\), ensuring that the result stays within an \(L_{\infty}\)-neighborhood of the source image \(X\). The exact clipping operation is defined as follows:
 
-For each pixel value \(X(x, y, z)\) at coordinates \((x, y)\) and channel \(z\), the clipped value is calculated by:
-
-$$
-\text{Clip}_{X',X}(x, y, z) = \min(255, X(x, y, z) + \max(0, X'(x, y, z) - X(x, y, z)))
-$$
-
-where \(X(x, y, z)\) represents the pixel intensity of channel \(z\) in the image \(X\) at position \((x, y)\).
 
 # Paper 34 (Adversarial Examples Are Not Bugs, They Are Features)
 
