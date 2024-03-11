@@ -174,22 +174,31 @@ The methodology involves creating three novel attack algorithms tailored to diff
 ## Introduction/ Motivation
 The rapid integration of machine learning (ML) into various aspects of technology, especially those reliant on sensory data (such as images from cameras for classification tasks), has spotlighted significant vulnerabilities. These systems are susceptible to adversarial examples—subtly modified input data designed to cause incorrect model classification. Such vulnerabilities are not merely academic curiosities; they represent tangible security risks in real-world applications. Previous research predominantly explored adversarial attacks within digital domains, assuming direct access to the ML model's input. This paper shifts focus towards a more challenging and realistic scenario where adversarial examples interact with physical-world systems, such as those interpreting sensory data, without direct digital input manipulation. Demonstrating the persistence of these vulnerabilities in physical contexts highlights an urgent need for robust defenses in ML deployments across various sectors.
 
-## Methods
+## Notations
 Below are the basic notations followed: 
 
 - **X**: An image, which is typically a 3-D tensor (width × height × depth). We assume that the values of the pixels are integer numbers in the range [0, 255].
 
 - **y_true**: The true class for the image \(X\).
 
-- **J(X, y)**: The cross-entropy cost function of the neural network, given image \(X\) and class \(y\). We intentionally omit network weights (and other parameters) in the cost function because we assume they are fixed (to the value resulting from training the machine learning model) in the context of the paper. For neural networks with a softmax output layer, the cross-entropy cost function applied to integer class labels equals the negative log-probability of the true class given the image: \(J(X, y) = -\log p(y | X)\), this relationship will be used below.
-- **$Clip_{X,\epsilon}{\{X'\}}$**: A function which performs per-pixel clipping of the image \(X\), so the result will be in\(L_{\infty}\) \epsilon neighbourhood of the source image \(X\). The exact clipping equation is as follows:
-  
-- Fast method: One of the simplest methods to generate adversarial images, as described in Goodfellow et al. (2014), involves linearizing the cost function and identifying the perturbation that maximizes this cost within an L∞ constraint. This process can be completed in a closed form, requiring only a single back-propagation step:
-  $\[X^{\text{adv}} = X + \epsilon \cdot \text{sign}(\nabla_X J(X, y_{\text{true}}))\]$
+- **J(X, y)**: The cross-entropy cost function of the neural network, For neural networks with a softmax output layer, the cross-entropy cost function applied to integer class labels equals the negative log-probability of the true class given the image: \(J(X, y) = -\log p(y | X)\), this relationship will be used below.
+- **$Clip_{X,\epsilon}{\{X'\}}$**: A function which performs per-pixel clipping of the image \(X\), so the result will be in $\(L_{\infty}\) \epsilon$ neighbourhood of the source image \(X\). The exact clipping equation is as follows: <br>
+$\( \text{Clip}_X\{X(x,y,z)\} = \min(255, \max(0, X(x,y,z))) \)$ <br>
+where $\(X(x, y, z)\)$ is the value of channel $\(z\)$ of the image $\(X\)$ at coordinates $\((x, y)\)$.
+
+## Methods
+They used three main methods to conduct this experiment.   
+- **Fast method**: One of the simplest methods to generate adversarial images, as described in Goodfellow et al. (2014), involves linearizing the cost function and identifying the perturbation that maximizes this cost within an L∞ constraint. This process can be completed in a closed form, requiring only a single back-propagation step: <br>
+  $\[X^{\text{adv}} = X + \epsilon \cdot \text{sign}(\nabla_X J(X, y_{\text{true}}))\]$ <br>
   Here, ε is a hyper-parameter that needs to be selected.
-- Basic Iterative method: We present a straightforward extension of the "fast" method by applying it multiple times with a small step size and clipping the pixel values after each iteration. This ensures that the resulting adversarial images remain within an ε-neighbourhood of the original image:
-  $X_{\text{N+1}}^{adv} = Clip_{X,\epsilon}[X_{\text{N+1}}^{adv} + \alpha sign(\nabla_XJ(X_{\text{N+1}}^{adv}, y_\text{true}))]$
-- Iterative least-likely class: This iterative method tries to make an adversarial image which will be classified as a specific desired target class. For desired class we chose the least-likely class according to the prediction of the trained network on image X.  For a well-trained classifier, the least-likely class is usually highly dissimilar from the true class, so this attack method results in more interesting mistakes, such as mistaking a dog for an airplane.
+- **Basic Iterative method**: We present a straightforward extension of the "fast" method by applying it multiple times with a small step size and clipping the pixel values after each iteration. This ensures that the resulting adversarial images remain within an ε-neighbourhood of the original image: <br>
+  $X_{\text{0}}^{adv} = X,$
+  $X_{\text{N+1}}^{adv} = Clip_{X,\epsilon}[X_{\text{N}}^{adv} + \alpha sign(\nabla_XJ(X_{\text{N}}^{adv}, y_\text{true}))]$
+- **Iterative least-likely class**: This iterative method tries to make an adversarial image which will be classified as a specific desired target class. For desired class we chose the least-likely class according to the prediction of the trained network on image X.  For a well-trained classifier, the least-likely class is usually highly dissimilar from the true class, so this attack method results in more interesting mistakes, such as mistaking a dog for an airplane. <br>
+  $X_{\text{0}}^{adv} = X,$
+  $X_{\text{N+1}}^{adv} = Clip_{X,\epsilon}[X_{\text{N}}^{adv} - \alpha sign(\nabla_XJ(X_{\text{N}}^{adv}, y_\text{LL}))]$ <br>
+  For this iterative procedure we used the same and same number of iterations as for the basic
+ iterative method.
 ## Experimental setup
 - Experimentation Procedure
 The experiment involved printing adversarial and clean images with QR codes for automatic cropping, photographing these printouts with a Nexus 5x camera, and then processing these photos for classification analysis. The images were prepared by converting PNGs to PDFs, printing them using a high-resolution printer, and then capturing them under natural indoor lighting conditions without strict control over environmental factors. This approach introduced variability meant to test the robustness of adversarial perturbations.
