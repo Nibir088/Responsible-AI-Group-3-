@@ -174,6 +174,12 @@ The methodology involves creating three novel attack algorithms tailored to diff
 ## Introduction/ Motivation
 The rapid integration of machine learning (ML) into various aspects of technology, especially those reliant on sensory data (such as images from cameras for classification tasks), has spotlighted significant vulnerabilities. These systems are susceptible to adversarial examples—subtly modified input data designed to cause incorrect model classification. Such vulnerabilities are not merely academic curiosities; they represent tangible security risks in real-world applications. Previous research predominantly explored adversarial attacks within digital domains, assuming direct access to the ML model's input. This paper shifts focus towards a more challenging and realistic scenario where adversarial examples interact with physical-world systems, such as those interpreting sensory data, without direct digital input manipulation. Demonstrating the persistence of these vulnerabilities in physical contexts highlights an urgent need for robust defenses in ML deployments across various sectors.
 
+<p align="center">
+  <img src="img/gibbon.png" alt="Description of the image">
+</p>
+<p align="center"><em>Figure 1: Demonstration of a black-box attack on a phone app for image classification using physical adversarial examples. We took a clean image from the dataset (a) and used it to generate adversarial images with various sizes of adversarial perturbation. Then we printed clean and adversarial images and used the TensorFlow Camera Demo app to classify them. A clean image (b) is recognized correctly as a “washer” when perceived through the camera, while adversarial images (c) and (d) are misclassified. </em></p>
+
+
 ## Notations
 Below are the basic notations followed: 
 
@@ -202,6 +208,10 @@ They used three main methods to conduct this experiment.
 ## Experimental setup
 - Experimentation Procedure
 The experiment involved printing adversarial and clean images with QR codes for automatic cropping, photographing these printouts with a Nexus 5x camera, and then processing these photos for classification analysis. The images were prepared by converting PNGs to PDFs, printing them using a high-resolution printer, and then capturing them under natural indoor lighting conditions without strict control over environmental factors. This approach introduced variability meant to test the robustness of adversarial perturbations.
+<p align="center">
+  <img src="img/gibbon.png" alt="Description of the image">
+</p>
+<p align="center"><em>Figure 2: Experimental setup: (a) generated printout which contains pairs of clean and adversarial images, as well as QR codes to help automatic cropping; (b) photo of the printout made by a cellphone camera; (c) automatically cropped image from the photo.</em></p>
 To understand the impact of simple image transformations on the robustness of adversarial examples, various transformations such as contrast and brightness changes, Gaussian blur, Gaussian noise, and JPEG compression were applied to a consistent subset of 1000 images from the validation set. The aim was to assess the adversarial destruction rate across different adversarial generation methods when subjected to these transformations.
 
 - Experimental Conditions
