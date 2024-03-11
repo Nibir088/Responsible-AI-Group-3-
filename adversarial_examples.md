@@ -1,4 +1,45 @@
-# Paper 30
+# Paper 30: Intriguing Properties of Neural Networks
+
+## Motivation
+The motivation for this paper is to explore two important properties of deep neural networks and understand how they can be vulnerable to adversarial examples. Deep neural networks are really good at tasks like recognizing images or speech because they're excellent at finding patterns in data. However, they sometimes learn in ways that are difficult for humans to understand. While humans can often understand the reasoning behind a decision or inference, the inner workings of DNNs can be inscrutable. This lack of transparency raises concerns, especially in critical applications where the reasoning behind a decision is as important as the decision itself.
+
+## Findings
+### Property 1
+The paper says that when we look at the individual parts of neural networks, like specific neurons, they don't seem to be doing anything special on their own. Instead, it's the overall pattern of connections in the network that matters more for understanding the meaning of things.
+This property is concerned with the semantic information of individual units. (Semantic information: understanding what the network has learned and how it represents concepts or features in the data it's trained on)
+An example of the Property 1: Let's say we have a neural network trained to recognize different types of animals in images. The first property mentioned in the paper suggests that when we look at the individual neurons or units in the network, we might expect each one to represent a specific feature of an animal, such as a certain shape or color.
+However, the research finds that if we look at what makes each neuron "light up" the most (meaning, what kind of input image makes it activate strongly), it's not always straightforward to interpret what that neuron represents. For example, a neuron might activate strongly for images of both cats and dogs, or it might activate for completely unrelated things like trees or cars.
+
+### Property 2
+This property is concerned with a DNN’s performance against adversarial examples (inputs that have been intentionally and slightly perturbed that may cause a DNN to produce incorrect outputs).
+Consider a state-of-the-art deep neural network that generalises well on an object recognition task. We expect such a network to be robust to small perturbations of its input, because small perturbations cannot change the object category of an image. However, we find that applying an imperceptible non-random perturbation to a test image, it is possible to arbitrarily change the network’s prediction (see figure 5). These perturbations are found by optimising the input to maximise the prediction error.
+
+## Mathematical Formulation and Experiments
+$\phi(x)$: Activation values of some layer in a neural network when the input image 𝑥 is processed through it. 
+
+$x \in R$: Where 𝑥 represents an input image in a dataset with m features
+
+To reveal the above properties, they perform experiments on several datasets. One of these is the classic MNIST dataset, with the following architecture:
+- A simple fully connected network with one or more hidden layers and a Softmax classifier. We refer to this network as “FC”. 
+- A classifier trained on top of an autoencoder. We refer to this network as “AE”.
+  
+Previous research treated the activation of a hidden unit in a neural network as if it represented a meaningful feature of the input image. They would look for images that maximised the activation of a single hidden unit to try to understand what that unit was detecting in the input image.
+Mathematically, they would do the following:
+$x' = \arg\max \langle \mathbf{\Phi}(x), e_i \rangle$. The "arg max" operation is used to find the input image 𝑥’ that maximizes a particular property, in this case, the activation value of a specific hidden unit in a neural network.
+$\arg\max \langle \mathbf{\Phi}(x), e_i \rangle$ finds the image in the dataset that causes the highest activation of the i-th hidden unit.
+
+However, the experiments conducted in this paper state that the semantic properties observed in the images are not specific to particular directions or basis vectors in the neural network's hidden layer space, but rather generalize across many different directions or axes in the input space.
+
+In other words, for any random direction $\(\nu \in \mathbb{R}^n\)$, we have
+
+$$x' = \arg\max \langle \mathbf{\Phi}(x), \nu \rangle$$
+
+## Conclusion
+In summary, this paper explores two key aspects of deep neural networks and how they can be tricked by subtle changes in data. Firstly, it points out that individual parts of these networks, like specific neurons, don't always represent clear features on their own. Instead, it's the overall connections between these parts that matter most for understanding how the network works.
+
+Secondly, the paper discusses how deep neural networks can make mistakes when faced with tiny alterations to their input data. Even small changes that humans can't notice can cause these networks to give completely wrong answers. This highlights the need for more reliable and stable neural network models, especially in tasks like image recognition.
+
+The experiments done in the paper, particularly on datasets like MNIST, provide valuable insights into how neural networks learn and make decisions. These findings challenge some of the assumptions we've had about how neural networks function and how they should be trained.
 
 # Paper 31 (Explaining and Harnessing Adversarial Examples)
 
