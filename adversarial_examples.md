@@ -141,7 +141,33 @@ To support the linear explanation for the existence of adversarial examples prop
 - The existence of adversarial examples suggests that deep learning models may not truly understand the underlying concepts they are trained on, but rather rely on patterns that are brittle to small perturbations.
 - Developing optimization procedures that can train more non-linear models may be necessary to escape the trade-off between ease of optimization and robustness to adversarial examples.
 
-# Paper 32
+
+# Paper 32: Towards Evaluating the Robustness of Neural Networks
+
+## Motivation
+The paper focuses on the vulnerability of neural networks to adversarial examples. These are inputs to a neural network that have been intentionally designed to cause the network to make a mistake. They are visually indistinguishable from natural inputs but cause the network to misclassify them. Defensive distillation, a technique previously thought to enhance the robustness of neural networks by significantly reducing the success rate of attacks aimed at generating adversarial examples, is scrutinized in this work. The authors propose three new attack algorithms that demonstrate the insufficiency of defensive distillation in significantly enhancing the robustness of neural networks. These attacks are designed to be effective across three common distance metrics and demonstrate higher success rates and effectiveness compared to existing adversarial example generation techniques. Through this work, the authors aim to highlight the need for better methods to evaluate and improve the robustness of neural networks against adversarial examples, suggesting that defenses should be tested against more powerful attacks such as those introduced in their study.
+
+## Methodology
+The methodology involves creating three novel attack algorithms tailored to different distance metrics (L0, L2, and L∞), which are commonly used in the literature to measure perturbations in adversarial examples. Each attack algorithm is meticulously designed to efficiently find adversarial examples that are minimally distant from original inputs according to their respective metrics, ensuring high success rates across both distilled and undistilled neural networks. 
+- L2 Attack: 
+- 
+- 
+
+## Conclusion/Critical Analysis
+- The comprehensive evaluation demonstrates that defensive distillation, despite previously reported successes, does not significantly enhance the robustness of neural networks against sophisticated adversarial examples crafted using their novel attack algorithms. 
+
+- The authors' three tailored attacks (for L0, L2, and L∞ metrics) consistently achieve 100% success rates on both distilled and undistilled networks, showcasing that these attacks can bypass distillation defenses more effectively and with less perturbation than existing methods. 
+
+- Furthermore, their work emphasizes the critical need for more reliable metrics and methods for evaluating neural network robustness. They advocate for the development of neural networks that can resist not just current but future, potentially more powerful adversarial attacks. For this, the authors encourage the use of following evaluation approaches :
+  - Employ a potent attack (such the ones this study suggests) to assess the secured model's robustness directly. Defenders should make cautious to create robustness against the L2 distance metric because stopping our L2 attack will stop our other attacks. 
+  - By building high-confidence adversarial cases on an unsecured model and demonstrating that they are unable to transfer to the secured model, one can demonstrate the failure of transferability.
+
+### Critical Analysis
+-	The methodology is thorough, detailing optimized attack strategies against distilled networks and commendably using various distance metrics for a broad analysis of adversarial examples' impact on neural networks.
+-	However, the paper's focus on defensive distillation exclusively as a defense mechanism could be seen as a limitation. A more holistic approach that evaluates the proposed attacks against a wider range of defense mechanisms could provide a more comprehensive view of their effectiveness and the overall robustness of neural networks.
+-	Further research is needed to explore the practical implementation of adversarial attacks and develop defenses that meet real-world operational requirements of machine learning applications.
+
+
 
 # Paper 33 (Adversarial examples in the physical world)
 
