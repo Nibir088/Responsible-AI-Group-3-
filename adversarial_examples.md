@@ -528,6 +528,26 @@ To understand the impact of simple image transformations on the robustness of ad
 - Experimental Conditions
 Tests were conducted under average case scenarios with randomly chosen images, and prefiltered cases where images were selected based on their classification performance and confidence levels. This dual approach aimed to assess the effectiveness of adversarial attacks in controlled versus more realistic conditions. In a series of experiments designed
 
+### Findings
+The folowing Tables demonstrate the effictiveness of attacks on certain datasets. The results found in Table IV are for MNIST and CIFAR, and Table V for ImageNet. Regardless of the amount of modification necessary, an attack is successful if it results in an adversarial example with the right target label. Failure denotes a situation in which the attack was wholly unsuccessful.
+Assessment is done using CIFAR and MNSIT on the first 1,000 photos in the test set. Also, on 1,000 photos on ImageNet that Inception v3 12 initially properly classified. Using ImageNet, 100 target classes (10%) were randomly selected to approximate the best-case and worst-case outcomes.
+
+
+<p align="center">
+  <img src="img/table4.png" alt="Description of the image">
+</p>
+
+<p align="center">
+  <img src="img/table5.png" alt="Description of the image">
+</p>
+
+In Table VI, the attacks are applied to distillation. All of the previous attacks fail to find adversarial examples. In contrast, the proposed attacks succeeds with 100% success probability for each of the three distance metrics.
+When compared to Table IV, distillation has added almost no value: the $L_{0}$ and $L_{2}$ attacks perform slightly worse, and our $L_{\infty}$ attack performs approximately equally. All of the novel attacks succeed with 100% success.
+
+<p align="center">
+  <img src="img/table6.png" alt="Description of the image">
+</p>
+
 ## Adversarial examples as a feature of the model
 Consider binary classification, where input-label pairs $(x, y) \in \mathcal{X} \times \{\pm 1\}$ are sampled from a (data) distribution $\mathcal{D}$; the goal is to learn a classifier $C : \mathcal{X} \rightarrow \{\pm 1\}$ which predicts a label $y$ corresponding
 to a given input $x$. Features are function mappings from the input space to the real numbers.
