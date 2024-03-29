@@ -29,3 +29,7 @@ PATE is an innovative approach that ensures privacy during machine learning mode
 
 First, the sensitive data are partitioned into $n$ disjoint dataset. Each dataset is used to train a teacher model and $n$ teacher model is aggregated to a new teacher model. Aggregate teacher model provides the predicted labels. This labels is open to used but the aggregate model and data is not accessible by the adversary. On the other hand, a student model is trained on public data using the labels provided by the teacher model. This process ensures that the student model learns to accurately mimic the ensemble without having direct access to the sensitive training data. The student’s training is influenced by noisy voting among the teachers, which is a mechanism to protect the privacy of the training data. The student model can then be deployed for predictions without compromising the privacy of the sensitive data it was trained on. An overview of this approach is shown in the figure below.
 
+<p align="center">
+  <img src="img/overview_pate.png" alt="Description of the image">
+</p>
+
