@@ -52,8 +52,12 @@ We can deviside this into following
      
 + __Semi-supervised transfer of the knowledge from an ensemble to a student__: The student model is trained using non-sensitive and unlabeled data. Some of this data is labeled using the aggregation mechanism from the teacher ensemble. The student model replaces the teacher ensemble for deployment. Here privacy loss is fixed and does not increase with user queries to the student model. Even if the student model’s architecture and parameters are public or reverse-engineered, the privacy of original training dataset contributors is maintained. Furthermore, the privacy cost is determined by queries made during teacher ensemble training. In addition, various techniques were considered (distillation, active learning, etc.), but the most successful one is semi-supervised learning with GANs (PATE-G).
 
-***Privacey analysis of the approach***
+***Privacy analysis of the approach***
 
+__Privacy Loss__: Assume a randomized mechanism $M$ with domain $D$ and range $R$ satisfies ($\epsilon, \delta$)-differntial privacy if any two adjacent inputs d, $d' \in D$ and for any subset of outputs $S \subseteq R$ it holds that:
+<p align="center">$Pr[M(d)\in S]\le e^\epsilon Pr[M(d')\in S]+\delta$</p>
+Now let, $M:D \to R$ be a randomized mechanism and $d, d'$ a pair of adjacent databases. Let aux denote an auxiliary input. For an outcome $o \in R$, the privacy loss at o is defined as:
+<p align="center"> $c(o; M, aux, d, d') log \frac{Pr[M(aux, d)=o]}{Pr[]M(aux, d')=o}$ ∆= </p>
 
 ## Evaluation and Result analysis 
 
