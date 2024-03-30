@@ -56,8 +56,35 @@ We can deviside this into following
 
 __Privacy Loss__: Assume a randomized mechanism $M$ with domain $D$ and range $R$ satisfies ($\epsilon, \delta$)-differntial privacy if any two adjacent inputs d, $d' \in D$ and for any subset of outputs $S \subseteq R$ it holds that:
 <p align="center">$Pr[M(d)\in S]\le e^\epsilon Pr[M(d')\in S]+\delta$</p>
+
 Now let, $M:D \to R$ be a randomized mechanism and $d, d'$ a pair of adjacent databases. Let aux denote an auxiliary input. For an outcome $o \in R$, the privacy loss at o is defined as:
-<p align="center"> $c(o; M, aux, d, d') log \frac{Pr[M(aux, d)=o]}{Pr[]M(aux, d')=o}$ ∆= </p>
+<p align="center"> $c(o; M, aux, d, d') = log \frac{Pr[M(aux, d)=o]}{Pr[]M(aux, d')=o}$ </p>
+
+The privacy loss random variable $C(M, aux, d, d')$ is defined as $C(M(d;M,aux, d,d'))$ i.e., random variable defined by evaluating the privacy loss at an outcome sampled from $M(d)$.
+
+__Moments accountant__: $\alpha_M(\lambda) = max_{aux, d,d'}$ $\alpha_M (\lambda; aux, d , d')$, where $\alpha_M (\lambda; aux, d , d') = log~E[exp(\lambda C(M, aux, d, d'))]$ is the moment generating function of privacy loss random variable.
+
+Based on this definition, authors provide three theorm as follows:
+
+<p align="center">
+  <img src="img/privacy_61_theorem-1.png" alt="Description of the image">
+</p>
+<p align="center">
+  <img src="img/privacy_61_theorem-2.png" alt="Description of the image">
+</p>
+
+From this theorem, we have following properties:
+
++ Privacy Bounds and Moments:
+  + Theorems 2 and 3 provide bounds for specific moments related to privacy.
+  + The smaller of these bounds is used, and Theorem 1 allows combining them to derive an (ε, δ) guarantee.
+  + Privacy moments are data-dependent, so the final ε value should not be revealed.
+  + To estimate privacy cost differentially, smooth sensitivity is bounded, and noise is added to moments.
++ Effect of Number of Teachers on Privacy Cost:
+  + Student uses a noisy label (parameter γ) computed in (1).
+  + Smaller γ leads to lower privacy cost.
+  + A larger gap between the two largest values of nj results in a smaller privacy cost.
+  + More teachers can lower privacy cost, but there’s a limit: With n teachers, each trains on a 1/n fraction of data, potentially reducing accuracy.
 
 ## Evaluation and Result analysis 
 
@@ -82,3 +109,11 @@ Specifically, the MNIST student achieves 98.00% accuracy with strict differentia
 <p align="center">
   <img src="img/privacy_61_table.png" alt="Description of the image">
 </p>
+
+## Discussion and Conclusion
++ The paper introduces the PATE approach, which aggregates knowledge from “teacher” models trained on separate data.
++ The “student” model, whose attributes may be public, benefits from this transfer.
++ Demonstrably achieves excellent utility on MNIST and SVHN tasks while providing a formal bound on user's privacy loss.
++ The approach requires disjoint training data for a large number of teachers.
++ Encouragingly, combining semi-supervised learning with precise, data-dependent privacy analysis shows promise.
++ Future work could explore whether this approach reduces teacher queries for tasks beyond MNIST and SVHN.
