@@ -25,7 +25,8 @@ Paper [61] addresses the challenge of training machine learning models on sensit
 ## Methodology
 
 ## Modeling Empirical Risk Minimization (ERM)
-Let $D \in \left\{ (x_{i}, y_{i}) \in X \times Y:i=1,2...n \right\}$ denote the training data that a machine learning algorithm will be learning from, where ${X = \rm I\!R^{d}}$ and ${Y = \left\{ -1, +1 \right\}}$.
+Let ${D \in \left\{ (x_{i}, y_{i}) \in X \times Y:i=1,2...n \right\}}$ denote the training data that a machine learning algorithm will be learning from, where ${X = \rm I\!R^{d}}$ and 
+${Y = \left\{ -1, +1 \right\}}$.
 We would like to produce a predictor ${f:X\to Y}$ and the measure the quality of this predictor on the training data using a non-negative loss function ${l: Y \times Y\to \rm I\!R}$. <br>
 In regulared empirical risk minimization (ERM), we choose a predictor ${f}$ that minimizes the regularized empirical loss defined below:
 $${J(f,d) = \frac{1}{n}\sum_{i=1}^{n}l(f(x_{i}),y_{i}) + \Lambda N(f)}$$
