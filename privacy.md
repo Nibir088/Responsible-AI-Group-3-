@@ -1,12 +1,21 @@
-# paper 59
-# paper 60
-# paper 61: SEMI-SUPERVISED KNOWLEDGE TRANSFER FOR DEEP LEARNING FROM PRIVATE TRAINING DATA
+# Introduction
+When applying machine learning algorithms to datasets that contain high volumes of sensitive personal data, privacy is a top priority. Technology breakthroughs that make it possible to gather and analyze enormous volumes of data also increase the risk of privacy violations and improper use of personal data. People have a right to anticipate that their data will be treated carefully and in accordance with their right to privacy. Even though machine learning algorithms are effective tools for deriving insights and forecasts from data, if they are not used appropriately, they may unintentionally reveal private information about specific people. As a result, it is crucial to protect personal data privacy at every stage of the data processing pipeline, from data collection and storage to analysis and result distribution. <br /><br />
+Monteleoni et. al. [59] discuss general techniques to create privacy-preserving approximations of classifiers learned through empirical risk minimization (ERM), including regularized ERM. The algorithms proposed in this paper are private under the epsilon-differential privacy definition introduced by Dwork et al. (2006). Theoretical results are provided to show that the proposed algorithms preserve privacy and offer generalization bounds for linear and nonlinear kernels, given certain convexity and differentiability criteria. The results are applied to produce privacy-preserving versions of regularized logistic regression and support vector machines (SVMs). Finally, encouraging results from evaluating the performance of the proposed methods on real demographic and benchmark datasets are presented.
 
-The paper presents a semi-supervised learning approach called Private Aggregation of Teacher Ensembles (PATE). It protects the privacy of sensitive training data by training an ensemble of teacher models on disjoint datasets.
+<!-- Introduction for [60] here -->
+
+[61] presents a semi-supervised learning approach called Private Aggregation of Teacher Ensembles (PATE). It protects the privacy of sensitive training data by training an ensemble of teacher models on disjoint datasets.
 These teacher models are then used to train a student model without direct access to the sensitive data, ensuring privacy even against adversaries with access to the student model’s parameters. The approach is validated with strong privacy guarantees and high utility on benchmark datasets like MNIST and SVHN.
 Further authors demonstrate its applicability to deep learning methods without making assumptions about the learning algorithm.
+
+
+<!-- # paper 61: SEMI-SUPERVISED KNOWLEDGE TRANSFER FOR DEEP LEARNING FROM PRIVATE TRAINING DATA -->
+
+
 ## Motivation
-The paper addresses the challenge of training machine learning models on sensitive data, such as medical records or personal photographs. ML models often inadvertently memorize and expose private information. The authors aim to develop a method that provides strong privacy guarantees for training data to prevent such unintended disclosures. Key contributions of this work are as follows:
+Paper [59] talks about the exponential increase in the amount of personal data kept in electronic databases across areas such as financial transactions, medical records, search history on the internet, and social network activities which has sparked serious privacy concerns. Although machine learning presents a significant opportunity to extract useful population-wide insights from these datasets, it also poses a key challenge: the unintentional exposure of people's private information. While the anonymization of personal data may appear to be a simple solution at first, the success of this approach is frequently compromised by the survival of distinct "signatures" in the remaining data fields, which allow persons to be re-identified. Thus, adopting more sophisticated techniques for machine learning to preserve sensitive data is required.<br><br>
+<!-- Paper [60] motivation here -->
+Paper [61] addresses the challenge of training machine learning models on sensitive data, such as medical records or personal photographs. ML models often inadvertently memorize and expose private information. The authors aim to develop a method that provides strong privacy guarantees for training data to prevent such unintended disclosures. Key contributions of this work are as follows:
 
 - Introduction of Private Aggregation of Teacher Ensembles (PATE) approach that ensures privacy by aggregating the knowledge of multiple models trained on disjoint datasets.
 - Demonstrate the applicability of PATE methods in machine learning algorithms and achieve state-of-the-art privacy and utility trade-offs.
@@ -15,7 +24,34 @@ The paper addresses the challenge of training machine learning models on sensiti
 - Empirical validation of the approach on benchmark datasets like MNIST and SVHN, demonstrating competitive accuracy with meaningful privacy bounds.
 ## Methodology
 
-***Private Aggregation of Teacher Ensembles (PATE)***
+## Modeling Empirical Risk Minimization (ERM)
+Let $D \in \left\{ (x_{i}, y_{i}) \in X \times Y:i=1,2...n \right\}$ denote the training data that a machine learning algorithm will be learning from, where ${X = \rm I\!R^{d}}$ and ${Y = \left\{ -1, +1 \right\}}$.
+We would like to produce a predictor ${f:X\to Y}$ and the measure the quality of this predictor on the training data using a non-negative loss function ${l: Y \times Y\to \rm I\!R}$. <br>
+In regulared empirical risk minimization (ERM), we choose a predictor ${f}$ that minimizes the regularized empirical loss defined below:
+$${J(f,d) = \frac{1}{n}\sum_{i=1}^{n}l(f(x_{i}),y_{i}) + \Lambda N(f)}$$
+There are some assumptions to keep in mind when constructing privacy-preserving ERM algorithms: <br>
+1. The loss function ${J(f,d)}$ and the regularizer ${N(.)}$ must be convex. Convex functions are those that satisfy the following property: ${H(\alpha f + (1-\alpha)g) < \alpha H(f) + (1-\alpha)H(g)}$. Strong
+convexity plays a role in guaranteeing privacy and generalization requirements
+2. Algorithms must satisfy the ${\epsilon_{p}}$ differential privacy model. This model provides a quantifiable framework for measuring the privacy guarantees of algorithms that process sensitive data. It aims to ensure that the presence or absence of any individual's data in a dataset doesn't significantly affect the outcome of the computation, thus preserving the privacy of individuals whose data is included in the dataset.
+   
+### Approaches for Privacy Preserving ERM
+[59] describes two approaches for achieving privacy preserving ERM.
+- **Output Perturbation: The Sensitivity Method**
+<br>Inputs: Data ${D}$ with parameters ${\epsilon_{p}, \Lambda}$
+<br>Output: Approximate minimizer ${f_{priv}}$
+<br>Draw a vector ${b}$ with ${\beta= \frac{n\Lambda \epsilon_{p}}{2}}$
+<br>Compute ${f_{priv} = \argmin J(f,D) + b}$, where ${b}$ is random noise with density
+
+- **Objective Perturbation**
+<br>Inputs: Data ${D}$ with parameters ${\epsilon_{p}, \Lambda}$
+<br>Output: Approximate minimizer ${f_{priv}}$
+<br>Similar to the first method, but instead of perturbing the output using sensitivity, we perturb the objective function
+<br><p align="center">
+  <img src="img/objective_perturb.jpg" alt="Description of the image">
+</p>
+
+
+**Private Aggregation of Teacher Ensembles (PATE)**
 
 PATE is an innovative approach that ensures privacy during machine learning model training by aggregating knowledge from multiple teacher models trained on disjoint datasets. It ultimately enables the creation of a student model without direct access to sensitive data. The model has five major components: $(i)$ sensitive data, $(ii)$ teacher models, $(iii)$ student model, $(iv)$ aggregate teacher, and $(v)$ privacy protection. A short description of these components is given below:
 
