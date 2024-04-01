@@ -59,7 +59,7 @@ convexity plays a role in guaranteeing privacy and generalization requirements
 paper[59] also introduces a "kernel trick" that would allow efficient construction of predictor f that lies in a reproducing kernel Hilbert space $\mathcal{h}$ associated with a positive definite kernel function. This theorem demonstrated that regularized ER is minimized by function f(x) which is given by linear combination of kernel functions centers at data points. 
 
 <br><p align="center">
-  <img src="img/Kernel1.png" alt="Description of the image">
+  <img src="img/Kernal1.png" alt="Description of the image">
 </p>
 
 Although this result is important for computational and theoretical reasons, there are privacy concerns as the classifier requires revealing the data. the paper suggests a new algorithm to mitigate this challenge
