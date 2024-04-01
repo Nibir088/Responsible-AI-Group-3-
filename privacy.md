@@ -189,14 +189,17 @@ The results shown in Figures 2 and 3, along with Tables 1 and 2 of the paper, co
 <p align="center">
   <img src="img/privacy_59_fig2.png" alt="Description of the image">
 </p>
+
 **Figure 3** explores similar dynamics for the KDDCup99 data set, detailing how varying the privacy parameter impacts the misclassification error for both logistic regression and SVMs. This comparison underscores the consistent trend where enhanced privacy (lower εp) correlates with higher error rates, underscoring the inherent balance between preserving data privacy and maintaining model accuracy.
 <p align="center">
   <img src="img/privacy_59_fig3.png" alt="Description of the image">
 </p>
+
 **Table 1** presents the error rates for different regularization parameters on the Adult dataset with a fixed privacy parameter (εp = 0.1), showcasing the best error per algorithm in bold. This table allows for an understanding of how varying regularization strengths impact the model's error rate, with the optimal values for minimizing the error highlighted for both logistic regression and SVMs under privacy constraints.
 <p align="center">
   <img src="img/privacy_59_tab1.png" alt="Description of the image">
 </p>
+
 **Table 2**, which was expected to show similar data for another dataset or parameter configuration based on the query, is not directly shown in the provided excerpts. However, it would presumably follow the structure of Table 1, presenting error rates across different configurations to further dissect the relationship between regularization, privacy, and model performance.
 <p align="center">
   <img src="img/privacy_59_tab2.png" alt="Description of the image">
@@ -212,6 +215,7 @@ Accuracy versus training data size tradeoffs, particularly through Figures 4 and
 <p align="center">
   <img src="img/privacy_59_fig4.png" alt="Description of the image">
 </p>
+
 **Figure 5** provides a parallel analysis for Support Vector Machines (SVM). Similar to the logistic regression results, the error rates decrease with larger training sets. Again, objective perturbation demonstrates superior performance to the sensitivity method, aligning with the trends observed in logistic regression.
 <p align="center">
   <img src="img/privacy_59_fig5.png" alt="Description of the image">
