@@ -55,6 +55,7 @@ convexity plays a role in guaranteeing privacy and generalization requirements
   <img src="img/objective_perturb.png" alt="Description of the image">
 </p>
 
+<<<<<<< Updated upstream
 ## Kernal methods
 paper[59] also introduces a "kernel trick" that would allow efficient construction of predictor f that lies in a reproducing kernel Hilbert space $\mathcal{h}$ associated with a positive definite kernel function. This theorem demonstrated that regularized ER is minimized by function f(x) which is given by linear combination of kernel functions centers at data points. 
 
@@ -69,6 +70,15 @@ Although this result is important for computational and theoretical reasons, the
 </p>
 
 This algorithm is designed to ensure privacy-preserving empirical risk minimization. 
+=======
+- **Parameter Tuning**
+The paper introduces a privacy-preserving parameter tuning method for machine learning algorithms, extending privacy guarantees to the tuning phase beyond just model training. Utilizing differential privacy principles and a randomized selection process based on disjoint data subsets, the technique ensures that privacy is maintained for all data used in learning, including parameter selection. This approach addresses the critical balance between privacy protection and model performance, acknowledging the inherent trade-offs in privacy-enhancing technologies.
+
+<br><p align="center">
+  <img src="img/privacy_59_tuning.png" alt="parameter tuning">
+</p>
+
+>>>>>>> Stashed changes
 ### Deep Learning with Differential Privacy
 
 For the differentially private training of neural networks, Abadi et al. [60] introduced two different components in their paper, including a *differentially private stochastic gradient descent (SGD) algorithm* and a *moments accountant*.
@@ -170,6 +180,44 @@ From this theorem, we have following properties:
 
 ## Evaluation and Result analysis 
 
+### Evaluation of Differentially Private Empirical Risk Minimization
+
+#### Privacy-Accuracy Tradeoff
+The results shown in Figures 2 and 3, along with Tables 1 and 2 of the paper, collectively illustrate the privacy-accuracy trade-offs and the performance of different regularization parameters across two datasets: the Adult data set and the KDDCup99 data set.
+
+**Figure 2** demonstrates the privacy-accuracy trade-off for the Adult data set. It highlights the performance comparison between sensitivity-based and objective perturbation methods for logistic regression and Support Vector Machines (SVMs), showing how error rates change with varying levels of privacy parameter (εp). The graph indicates that as privacy increases (εp decreases), misclassification error rates generally increase for both logistic regression and SVMs, reflecting the trade-off between privacy and accuracy.
+<p align="center">
+  <img src="img/privacy_59_fig2.png" alt="Description of the image">
+</p>
+**Figure 3** explores similar dynamics for the KDDCup99 data set, detailing how varying the privacy parameter impacts the misclassification error for both logistic regression and SVMs. This comparison underscores the consistent trend where enhanced privacy (lower εp) correlates with higher error rates, underscoring the inherent balance between preserving data privacy and maintaining model accuracy.
+<p align="center">
+  <img src="img/privacy_59_fig3.png" alt="Description of the image">
+</p>
+**Table 1** presents the error rates for different regularization parameters on the Adult dataset with a fixed privacy parameter (εp = 0.1), showcasing the best error per algorithm in bold. This table allows for an understanding of how varying regularization strengths impact the model's error rate, with the optimal values for minimizing the error highlighted for both logistic regression and SVMs under privacy constraints.
+<p align="center">
+  <img src="img/privacy_59_tab1.png" alt="Description of the image">
+</p>
+**Table 2**, which was expected to show similar data for another dataset or parameter configuration based on the query, is not directly shown in the provided excerpts. However, it would presumably follow the structure of Table 1, presenting error rates across different configurations to further dissect the relationship between regularization, privacy, and model performance.
+<p align="center">
+  <img src="img/privacy_59_tab2.png" alt="Description of the image">
+</p>
+Together, these results paint a comprehensive picture of the trade-offs involved in privacy-preserving machine learning, demonstrating how adjustments to privacy parameters and regularization strength influence model accuracy across different datasets.
+
+#### Accuracy vs. Training Data Size Tradeoffs
+
+Accuracy versus training data size tradeoffs, particularly through Figures 4 and 5, reveals the impact of increasing training set size on classification accuracy for the KDDCup99 data set. These figures, alongside experimental data, illustrate how classification error trends vary between non-private Empirical Risk Minimization (ERM), objective perturbation, and the sensitivity method under different privacy budgets (εp = 0.01 and εp = 0.05).
+
+**Figure 4** outlines the learning curves for logistic regression. It shows that for both privacy levels (εp = 0.01 and εp = 0.05), the classification error decreases as the size of the training set increases. This trend is consistent across the objective perturbation and sensitivity methods, with the non-private ERM method serving as a baseline. Notably, objective perturbation consistently outperforms the sensitivity method, suggesting that it's more effective at maintaining classification accuracy under privacy constraints.
+
+<p align="center">
+  <img src="img/privacy_59_fig4.png" alt="Description of the image">
+</p>
+**Figure 5** provides a parallel analysis for Support Vector Machines (SVM). Similar to the logistic regression results, the error rates decrease with larger training sets. Again, objective perturbation demonstrates superior performance to the sensitivity method, aligning with the trends observed in logistic regression.
+<p align="center">
+  <img src="img/privacy_59_fig5.png" alt="Description of the image">
+</p>
+Overall, the results underscore the effectiveness of objective perturbation over the sensitivity method across both machine learning models, highlighting the potential of privacy-preserving techniques to achieve lower classification errors with increasing training data sizes, within the bounds of specified privacy budgets (εp values).
+
 ### Evaluation of Differentially Private Deep Learning
 
 For the MNIST dataset, known for its collection of handwritten digits, the authors apply their differentially private SGD algorithm to train a deep neural network. The evaluation focuses on the algorithm's ability to maintain high accuracy while adhering to stringent privacy guarantees. By adjusting the noise scale and the privacy budget, the paper illustrates how the algorithm achieves commendable accuracy levels, thereby indicating the practicality of deploying differential privacy in environments where data sensitivity is a concern. This part of the evaluation underscores the nuanced balance between privacy protection and model accuracy, highlighting the effectiveness of the proposed privacy accountant in managing the cumulative privacy budget.
@@ -216,6 +264,7 @@ Specifically, the MNIST student achieves 98.00% accuracy with strict differentia
 </p>
 
 ## Discussion and Conclusion
+The conclusion of the paper by Chaudhuri et al [59] reflects on the significant stride in privacy-preserving machine learning through the introduction of two algorithms: sensitivity-based output perturbation and the novel objective perturbation method, within the εp-differential privacy framework. Objective perturbation, in particular, is highlighted for its effectiveness in balancing privacy and performance, showing near-equivalent accuracy to non-private algorithms under certain conditions. This work not only provides the first computationally efficient, differentially private classifiers validated on standard datasets but also sets a precedent in the empirical validation of differential privacy's impact on learning. The paper outlines the potential for future research, including extending these methods to broader convex optimization problems and refining privacy-accuracy trade-offs, underscoring the foundational contribution of this research to the field of privacy-preserving data analysis.
 
 The work by Abadi et al. [60] marks a crucial advancement in blending differential privacy with deep learning, specifically through the use of a differentially private SGD algorithm. Their rigorous evaluation on benchmarks like MNIST and CIFAR-10 demonstrates the practicality of applying differential privacy without significantly sacrificing model performance. The introduction of the Moments Accountant for precise privacy loss tracking is a significant contribution, offering a pathway to more effective privacy budget management.
 
