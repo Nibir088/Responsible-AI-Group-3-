@@ -2,7 +2,7 @@
 When applying machine learning algorithms to datasets that contain high volumes of sensitive personal data, privacy is a top priority. Technology breakthroughs that make it possible to gather and analyze enormous volumes of data also increase the risk of privacy violations and improper use of personal data. People have a right to anticipate that their data will be treated carefully and in accordance with their right to privacy. Even though machine learning algorithms are effective tools for deriving insights and forecasts from data, if they are not used appropriately, they may unintentionally reveal private information about specific people. As a result, it is crucial to protect personal data privacy at every stage of the data processing pipeline, from data collection and storage to analysis and result distribution. <br /><br />
 Monteleoni et. al. [59] discuss general techniques to create privacy-preserving approximations of classifiers learned through empirical risk minimization (ERM), including regularized ERM. The algorithms proposed in this paper are private under the epsilon-differential privacy definition introduced by Dwork et al. (2006). Theoretical results are provided to show that the proposed algorithms preserve privacy and offer generalization bounds for linear and nonlinear kernels, given certain convexity and differentiability criteria. The results are applied to produce privacy-preserving versions of regularized logistic regression and support vector machines (SVMs). Finally, encouraging results from evaluating the performance of the proposed methods on real demographic and benchmark datasets are presented.
 
-<!-- Introduction for [60] here -->
+Abadi et al. [60] focus on more general non-convex objectives and introduce the application of differential privacy within the framework of stochastic gradient descent, presenting an algorithm that ensures privacy without significantly compromising the efficiency or quality of the learning model. The introduction of the Moments Accountant  enables the execution of deep learning algorithms within a strictly controlled privacy budget. The practical efficacy of these methods is demonstrated through experiments on benchmark datasets, showcasing their ability to train deep neural networks with modest privacy expenditure. 
 
 [61] presents a semi-supervised learning approach called Private Aggregation of Teacher Ensembles (PATE). It protects the privacy of sensitive training data by training an ensemble of teacher models on disjoint datasets.
 These teacher models are then used to train a student model without direct access to the sensitive data, ensuring privacy even against adversaries with access to the student model’s parameters. The approach is validated with strong privacy guarantees and high utility on benchmark datasets like MNIST and SVHN.
@@ -14,7 +14,9 @@ Further authors demonstrate its applicability to deep learning methods without m
 
 ## Motivation
 Paper [59] talks about the exponential increase in the amount of personal data kept in electronic databases across areas such as financial transactions, medical records, search history on the internet, and social network activities which has sparked serious privacy concerns. Although machine learning presents a significant opportunity to extract useful population-wide insights from these datasets, it also poses a key challenge: the unintentional exposure of people's private information. While the anonymization of personal data may appear to be a simple solution at first, the success of this approach is frequently compromised by the survival of distinct "signatures" in the remaining data fields, which allow persons to be re-identified. Thus, adopting more sophisticated techniques for machine learning to preserve sensitive data is required.<br><br>
-<!-- Paper [60] motivation here -->
+
+With the advent of deep learning, which requires extensive data for training accurate and robust models, the risk of inadvertently exposing sensitive information increases significantly. Paper [60] addresses the crucial challenge of developing a methodology that allows for the training of deep neural networks while rigorously preserving the privacy of the individuals represented in the training data. By introducing a differentially private approach to stochastic gradient descent, the authors aim to strike a balance between the utility of machine learning models and the imperative need to protect personal privacy. Their work is pioneering in its application of differential privacy to deep learning, providing a framework for privacy-preserving machine learning that does not significantly compromise the performance of the models. 
+
 Paper [61] addresses the challenge of training machine learning models on sensitive data, such as medical records or personal photographs. ML models often inadvertently memorize and expose private information. The authors aim to develop a method that provides strong privacy guarantees for training data to prevent such unintended disclosures. Key contributions of this work are as follows:
 
 - Introduction of Private Aggregation of Teacher Ensembles (PATE) approach that ensures privacy by aggregating the knowledge of multiple models trained on disjoint datasets.
@@ -22,9 +24,10 @@ Paper [61] addresses the challenge of training machine learning models on sensit
 - The use of semi-supervised learning to enhance the student model’s performance without compromising privacy.
 - Provision of formal privacy guarantees in terms of differential privacy, ensuring that the student model’s training is not influenced by any single sensitive data point.
 - Empirical validation of the approach on benchmark datasets like MNIST and SVHN, demonstrating competitive accuracy with meaningful privacy bounds.
+
 ## Methodology
 
-## Modeling Empirical Risk Minimization (ERM)
+### Modeling Empirical Risk Minimization (ERM)
 Let ${  D \in \{ \{(x_{i}, y_{i}) \in X \times Y : i = 1, 2, \ldots, n\} \} }$ denote the training data that a machine learning algorithm will be learning from, where ${X = \rm I\!R^{d}}$ and ${ Y = (-1, +1)  }$
 
 We would like to produce a predictor ${f:X\to Y}$ and the measure the quality of this predictor on the training data using a non-negative loss function ${l: Y \times Y\to \rm I\!R}$. <br>
@@ -35,7 +38,7 @@ There are some assumptions to keep in mind when constructing privacy-preserving 
 convexity plays a role in guaranteeing privacy and generalization requirements
 2. Algorithms must satisfy the ${\epsilon_{p}}$ differential privacy model. This model provides a quantifiable framework for measuring the privacy guarantees of algorithms that process sensitive data. It aims to ensure that the presence or absence of any individual's data in a dataset doesn't significantly affect the outcome of the computation, thus preserving the privacy of individuals whose data is included in the dataset.
    
-### Approaches for Privacy Preserving ERM
+#### Approaches for Privacy Preserving ERM
 [59] describes two approaches for achieving privacy preserving ERM.
 - **Output Perturbation: The Sensitivity Method**
 <br>Inputs: Data ${D}$ with parameters ${\epsilon_{p}, \Lambda}$
@@ -51,8 +54,37 @@ convexity plays a role in guaranteeing privacy and generalization requirements
   <img src="img/objective_perturb.png" alt="Description of the image">
 </p>
 
+### Deep Learning with Differential Privacy
 
-**Private Aggregation of Teacher Ensembles (PATE)**
+For the differentially private training of neural networks, Abadi et al. [60] introduced two different components in their paper, including a *differentially private stochastic gradient descent (SGD) algorithm* and a *moments accountant*.
+
+#### Differentially Private SGD Algorithm
+
+The algorithm below outlines their basic method for training a model with with parameters θ by minimizing the empirical loss function $L(θ)$. At each step of the SGD, it computes the gradient $∇_θL(θ, x_i)$ for a random subset of examples, clip the 2-norm of each gradient, compute the average, add noise in order to protect privacy, and take a step in the opposite direction of this average noisy gradient. At the end, in addition to outputting the model, it will also compute the privacy loss of the mechanism based on the information maintained by the privacy accountant.
+
+<p align="center">
+  <img src="img/privacy_60_algorithm.png" alt="Description of the image">
+</p>
+
+At the core of the differentially private SGD algorithm is the mechanism for clipping and adding noise to the gradients. Each gradient computed from a batch of data points is clipped to have a bounded L2 norm, ensuring that no individual data point can have an outsized influence on the gradient. This step is crucial for limiting the sensitivity of the optimization process to the presence or absence of any single record in the dataset. Subsequently, Gaussian noise is added to the averaged, clipped gradients, which introduces the necessary randomness to achieve differential privacy. The magnitude of this noise is a function of the predefined privacy budget, with the parameters ε (epsilon) and δ (delta) dictating the trade-off between privacy and the accuracy of the model.
+
+#### The Moments Accountant
+
+To accurately manage and track the privacy expenditure associated with the repeated application of noisy updates, the authors introduce a analytical tool known as the "moments accountant." This tool provides a sophisticated method for quantifying the cumulative privacy loss over multiple iterations of the training process. Unlike traditional approaches to differential privacy that might overly constrain model performance or provide loose privacy guarantees, the Moments Accountant allows for a more nuanced and tight control of privacy loss. It enables the algorithm to make full use of its privacy budget, optimizing the training process within strict privacy constraints.
+
+The moments accountant involves evaluating the impact of the noise added to the gradients to mask individual contributions. The Moments Accountant calculates the cumulative privacy cost using a detailed analysis of the noise distribution, encapsulated in the formula:
+
+$$α(λ) = \max_{aux,d,d'} (\log E[exp(λ c(o; \mathcal{M}, aux, d, d'))] )$$
+
+Here, $α(λ)$ represents the moment generating function of the privacy loss random variable, $λ$ is the order of the moment, $\mathcal{M}$ denotes the mechanism (e.g., the addition of noise in SGD), $aux$ represents auxiliary input, and $d, d'$ are adjacent datasets. The privacy loss $c$ at output $o$ is calculated as the logarithm of the ratio of the probabilities of $o$ given $d$ versus $d'$:
+
+$$c(o; M, aux, d, d') = \log \frac{\Pr[M(aux, d) = o]}{\Pr[M(aux, d') = o]}$$
+
+By integrating over all possible outputs and taking the maximum across all auxiliary inputs and pairs of adjacent datasets, the Moments Accountant provides a tight bound on the total privacy loss. This allows the algorithm to make full use of its privacy budget, optimizing the model's utility while strictly controlling privacy risks.
+
+Furthermore, the cumulative privacy budget is carefully managed to ensure it does not exceed the predefined thresholds, ε (epsilon) for privacy loss and δ (delta) for the probability of exceeding this loss. This management is crucial for balancing the trade-off between model accuracy and privacy protection, enabling the training of complex deep learning models on sensitive datasets without compromising individual privacy.
+
+### Private Aggregation of Teacher Ensembles (PATE)
 
 PATE is an innovative approach that ensures privacy during machine learning model training by aggregating knowledge from multiple teacher models trained on disjoint datasets. It ultimately enables the creation of a student model without direct access to sensitive data. The model has five major components: $(i)$ sensitive data, $(ii)$ teacher models, $(iii)$ student model, $(iv)$ aggregate teacher, and $(v)$ privacy protection. A short description of these components is given below:
 
@@ -123,6 +155,29 @@ From this theorem, we have following properties:
 
 ## Evaluation and Result analysis 
 
+### Evaluation of Differentially Private Deep Learning
+
+For the MNIST dataset, known for its collection of handwritten digits, the authors apply their differentially private SGD algorithm to train a deep neural network. The evaluation focuses on the algorithm's ability to maintain high accuracy while adhering to stringent privacy guarantees. By adjusting the noise scale and the privacy budget, the paper illustrates how the algorithm achieves commendable accuracy levels, thereby indicating the practicality of deploying differential privacy in environments where data sensitivity is a concern. This part of the evaluation underscores the nuanced balance between privacy protection and model accuracy, highlighting the effectiveness of the proposed privacy accountant in managing the cumulative privacy budget.
+
+<p align="center">
+  <img src="img/privacy_60_mnist.png" alt="Description of the image">
+</p>
+
+Moving to the more challenging CIFAR-10 dataset, which comprises color images across ten different classes, the evaluation showcases the algorithm's scalability and adaptability to more complex data representations. The CIFAR-10 results further emphasize the algorithm's robustness, where despite the increased data complexity and the intrinsic challenges of maintaining privacy in datasets with richer information content, the differentially private SGD algorithm still manages to produce models with respectable accuracy. This is particularly noteworthy, considering the dataset's diversity and the higher dimensionality of the data points.
+
+<p align="center">
+  <img src="img/privacy_60_cifar.png" alt="Description of the image">
+</p>
+
+The evaluation also delves into the impact of various hyperparameters, such as the noise scale, the clipping threshold, and the lot size, on the model's performance. Through a detailed analysis, the paper demonstrates how careful tuning of these parameters can significantly enhance the trade-off between privacy and accuracy. It's shown that by optimizing these hyperparameters, the algorithm can be fine-tuned to achieve better performance, thereby providing valuable insights into the practical considerations required when implementing differential privacy in deep learning models.
+
+<p align="center">
+  <img src="img/privacy_60_ablation.png" alt="Description of the image">
+</p>
+
+Through experimentation on MNIST and CIFAR-10 datasets, Abadi et al. [60] not only validates the proposed algorithm's effectiveness in preserving privacy but also its ability to retain high levels of model accuracy. These findings are instrumental in advancing the field of privacy-preserving machine learning, offering a promising avenue for researchers and practitioners aiming to leverage the power of deep learning in sensitive data environments.
+
+### Evaluation of Private Aggregation of Teacher Ensembles (PATE)
 For the evaluation of the PATE and its generative variant PATE-G, the authors first train a teacher ensemble for each dataset. The trade-off between label accuracy and privacy depends on the number of teachers in the ensemble. Further, they minimize the privacy budget spent on training the student by using as few queries to the ensemble as possible. The experiments focus on MNIST and SVHN datasets, comparing the private student’s accuracy with that of a non-private model trained on the entire dataset under different privacy guarantees.
 
 ***TRAINING AN ENSEMBLE OF TEACHERS PRODUCING PRIVATE LABELS***
@@ -137,7 +192,7 @@ The study evaluates how well the MNIST and SVHN datasets can be partitioned with
 + __Noisy Aggregation__: Authors consider three ensembles with varying numbers of teachers: $n \in$ {10, 100, 250}. Larger ensemble sizes are necessary to mitigate the impact of noise injection on accuracy. The accuracy of test set labels inferred by the noisy aggregation mechanism is reported for different values of ε.
 Notably, the number of teachers must be substantial to maintain accuracy despite noise injection. (Follow Figure 2)
 
-***Semi-Supervised Training of the Student with Pprivacy***
+***Semi-Supervised Training of the Student with Privacy***
 
 To reduce the privacy budget spent on student training, authors are interested in making as few label queries to the teachers as possible. We therefore use the semi-supervised training approach. For MNIST dataset, the student uses 9,000 samples, with subsets of 100, 500, or 1,000 labeled using noisy aggregation and for SVHN, the student has 10,000 training inputs, labeling 500 or 1,000 samples. Student performance is evaluated on remaining test samples.  Leveraging semi-supervised training with GANs, the MNIST and SVHN students achieve impressive accuracies.
 Specifically, the MNIST student achieves 98.00% accuracy with strict differential privacy bound of ε = 2.04 (at $10^-5$ failure probability), and the SVHN student achieves 90.66% accuracy with privacy bound of ε = 8.19 (likely due to more queries to the aggregation mechanism). These results surpass the differential privacy state-of-the-art for these datasets. (Follow Figure 4)
@@ -146,9 +201,19 @@ Specifically, the MNIST student achieves 98.00% accuracy with strict differentia
 </p>
 
 ## Discussion and Conclusion
-+ The paper introduces the PATE approach, which aggregates knowledge from “teacher” models trained on separate data.
-+ The “student” model, whose attributes may be public, benefits from this transfer.
-+ Demonstrably achieves excellent utility on MNIST and SVHN tasks while providing a formal bound on user's privacy loss.
-+ The approach requires disjoint training data for a large number of teachers.
-+ Encouragingly, combining semi-supervised learning with precise, data-dependent privacy analysis shows promise.
-+ Future work could explore whether this approach reduces teacher queries for tasks beyond MNIST and SVHN.
+
+The work by Abadi et al. [60] marks a crucial advancement in blending differential privacy with deep learning, specifically through the use of a differentially private SGD algorithm. Their rigorous evaluation on benchmarks like MNIST and CIFAR-10 demonstrates the practicality of applying differential privacy without significantly sacrificing model performance. The introduction of the Moments Accountant for precise privacy loss tracking is a significant contribution, offering a pathway to more effective privacy budget management.
+
+The paper by Papernot et al. [61] introduces the PATE approach, which aggregates knowledge from “teacher” models trained on separate data.
+The “student” model, whose attributes may be public, benefits from this transfer.
+Demonstrably achieves excellent utility on MNIST and SVHN tasks while providing a formal bound on user's privacy loss.
+The approach requires disjoint training data for a large number of teachers.
+Encouragingly, combining semi-supervised learning with precise, data-dependent privacy analysis shows promise.
+Future work could explore whether this approach reduces teacher queries for tasks beyond MNIST and SVHN.
+
+## References
+[59] Differentially Private Empirical Risk Minimization. Chaudhuri et al 2011.
+
+[60] Deep Learning with Differential Privacy. Abadi et al, 2016
+
+[61] Semi-supervised Knowledge Transfer for Deep Learning from Private Training Data. Papernot et al, 2016
