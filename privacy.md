@@ -44,12 +44,13 @@ convexity plays a role in guaranteeing privacy and generalization requirements
 <br>Inputs: Data ${D}$ with parameters ${\epsilon_{p}, \Lambda}$
 <br>Output: Approximate minimizer ${f_{priv}}$
 <br>Draw a vector ${b}$ with ${\beta= \frac{n\Lambda \epsilon_{p}}{2}}$
-<br>Compute ${f_{priv} = \argmin J(f,D) + b}$, where ${b}$ is random noise with density
+<br>Compute ${f_{priv} = \text{argmin} J(f,D) + b}$, where ${b}$ is random noise with density
 
 - **Objective Perturbation**
 <br>Inputs: Data ${D}$ with parameters ${\epsilon_{p}, \Lambda}$
 <br>Output: Approximate minimizer ${f_{priv}}$
 <br>Similar to the first method, but instead of perturbing the output using sensitivity, we perturb the objective function
+
 <br><p align="center">
   <img src="img/objective_perturb.png" alt="Description of the image">
 </p>
