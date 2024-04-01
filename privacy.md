@@ -126,9 +126,9 @@ __Privacy Loss__: Assume a randomized mechanism $M$ with domain $D$ and range $R
 <p align="center">$Pr[M(d)\in S]\le e^\epsilon Pr[M(d')\in S]+\delta$</p>
 
 Now let, $M:D \to R$ be a randomized mechanism and $d, d'$ a pair of adjacent databases. Let aux denote an auxiliary input. For an outcome $o \in R$, the privacy loss at o is defined as:
-<p align="center"> $c(o; M, aux, d, d') = log \frac{Pr[M(aux, d)=o]}{Pr[]M(aux, d')=o}$ </p>
+<p align="center"> $c(o; M, aux, d, d') = log \frac{Pr[M(aux, d)=o]}{Pr[M(aux, d')=o}]$ </p>
 
-The privacy loss random variable $C(M, aux, d, d')$ is defined as $C(M(d;M,aux, d,d'))$ i.e., random variable defined by evaluating the privacy loss at an outcome sampled from $M(d)$.
+The privacy loss random variable $C(M, aux, d, d')$ is defined as $C(M(d);M,aux, d,d')$ i.e., random variable defined by evaluating the privacy loss at an outcome sampled from $M(d)$.
 
 __Moments accountant__: $\alpha_M(\lambda) = max_{aux, d,d'}$ $\alpha_M (\lambda; aux, d , d')$, where $\alpha_M (\lambda; aux, d , d') = log~E[exp(\lambda C(M, aux, d, d'))]$ is the moment generating function of privacy loss random variable.
 
