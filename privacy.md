@@ -55,6 +55,7 @@ convexity plays a role in guaranteeing privacy and generalization requirements
   <img src="img/objective_perturb.png" alt="Description of the image">
 </p>
 
+This algorithm is designed to ensure privacy-preserving empirical risk minimization. 
 ### Deep Learning with Differential Privacy
 
 For the differentially private training of neural networks, Abadi et al. [60] introduced two different components in their paper, including a *differentially private stochastic gradient descent (SGD) algorithm* and a *moments accountant*.
