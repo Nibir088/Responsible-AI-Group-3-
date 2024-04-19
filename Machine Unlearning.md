@@ -89,14 +89,43 @@ Similarly, for batch setting, we need to find the expected minimum value over mu
 Model is evaluated on MNIST, Purchase, SVHN, CIFAR-100, ImageNET, and mini-imagenet dataset. Results are as follows:
 
 **Impact of sharding**: Impact of sharding can be found in figure below. Despite providing similar benefits to batch $K$ and $\frac{1}{S}$ fraction baselines, SISA training shows more accuracy degradation for complex tasks like ImageNet. While consistently outperforming the $\frac{1}{S}$ fraction baseline, SISA training still faces challenges. With label aggregation results in an average top-5 accuracy degradation of 16.14 PPs. Varying the aggregation strategy mitigates this gap (Average improvements of 1.68 PPs in top-1 accuracy and 4.37 PPs in top-5 accuracy). It emphasizes the importance of ensuring each shard contains a sufficient number of data points to maintain high accuracy in constituent models.
+<p align="center">
+  <img src="img/unlearning_sharding.png" alt="Description of the image">
+</p>
 
 **Impact of slicing**: From figure below, we observe that slicing does not have detrimental impact on model accuracy in comparison to the approach without slicing if the training
 time is the same for both approaches. It is clear that slicing reduces the retraining time so long as the storage overhead for storing the model state after adding a new slice is acceptable.
+<p align="center">
+  <img src="img/unlearning_slicing.png" alt="Description of the image">
+</p>
+
 **Combination of sharding and slicing**: From figure below, it can be shown that a combination of sharding and slicing induces the desired speed-up for a fixed number of unlearning requests
 (0.003% the size of the corresponding datasets). Note that, the speed-up grows rapidly with an increase in S, but increasing S provides marginal gains in this regime.
+<p align="center">
+  <img src="img/unlearning_sharding_slicing.png" alt="Description of the image">
+</p>
+
+**Bridging the Accuracy Gap**: In a realistic deployment scenario, transfer learning from a base model (trained on ImageNet using ResNet-50) to the CIFAR-100 dataset, followed by SISA training, significantly reduces the accuracy gap between single-shard (S=1) and multi-shard (S>1) cases. We can show this from figure below. At S=10, the top-1 accuracy gap is reduced to around 4 PPs, and the top-5 accuracy gap to less than 1 PP. This approach allows for decreasing accuracy degradation induced by SISA training on complex tasks without varying constituent model hyperparameters while maintaining model homogeneity.
+<p align="center">
+  <img src="img/unlearning_accuracy_gap.png" alt="Description of the image">
+</p>
+
 
 
 ## Distributional Knowledge
+
+Now, consider we relax assumptions and explore how knowledge of the distribution of unlearning requests can benefit service providers. Retraining time and accuracy degradation can be minimized by understanding which data points are more likely to be unlearned based on auxiliary information. For instance, grouping users likely to request data erasure into shards can reduce retraining time. For instance, show the figure below. Moreover, adapting sharding strategies based on the distribution of unlearning requests, such as concentrating points from high-risk groups into fewer partitions, can further reduce the number of shards needing retraining.
+<p align="center">
+  <img src="img/unlearning_distribution.png" alt="Description of the image">
+</p>
+
+**Distribution Aware Sharding**: Assume the service provider can create shards in a way so as to minimize the time required for retraining. One approach is shown in the algoritm below. Assume: $(i)$ the distribution of unlearning requests is known precisely, and $(ii)$ this distribution is relatively constant over a time interval. Now, each data point $d_u \in \mathcal{D}$ has an probability $p(u)$ to be erased. First the algorithm sorts the data points in the order of their erasure probability, and points to a shard $D_i$ till the desired value of $E(D_i)$ is reached. Once this value is exceeded, it creates a new shard $D_{i+1}$ and restart the procedure with the residual data $\mathcal{D} - \mathcal{D_i}$. By enforcing a uniform cumulative probability of unlearning a across shards, it naturally aggregates the training points that are likely to require unlearning into a fewer shards that are also smaller in size.
+
+<p align="center">
+  <img src="img/unlearning_distribution_aware.png" alt="Description of the image">
+</p>
+
+From above figure, we show the number of points to be retrained relative to the number of unlearning requests for both uniform and distribution-aware sharding strategies. The distribution-aware strategy decreases the expected number of points to be retrained and creates shards of unequal size. With 19 shards generated, this approach achieves approximately 94.4% prediction accuracy, which is one percent point lower than uniform sharding at 95.7%. This trade-off between accuracy and decreased unlearning overhead highlights the need for future exploration of alternative aggregation methods to address imbalanced shard sizes.
 
 ## Conclusion & Discussion
 
