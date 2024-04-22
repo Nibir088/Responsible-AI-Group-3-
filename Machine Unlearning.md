@@ -166,6 +166,193 @@ Now, consider we relax assumptions and explore how knowledge of the distribution
 
 From above figure, we show the number of points to be retrained relative to the number of unlearning requests for both uniform and distribution-aware sharding strategies. The distribution-aware strategy decreases the expected number of points to be retrained and creates shards of unequal size. With 19 shards generated, this approach achieves approximately 94.4% prediction accuracy, which is one percent point lower than uniform sharding at 95.7%. This trade-off between accuracy and decreased unlearning overhead highlights the need for future exploration of alternative aggregation methods to address imbalanced shard sizes.
 
+## A Survey of Machine Learning
+
+The authors of Paper [4] aim to capture the key concepts of unlearning techniques. In their survey, the existing solutions are classified and summarized based on their characteristics within an up-to-date and comprehensive review of each category’s advantages and limitations.
+
+The figure below shows the overview of machine unlearning and its ecosystem, which presents the typical concept, unlearning targets, and desiderata associated with machine unlearning.
+
+<p align="center">
+  <img src="img/unlearning_86_ecosystem.png" alt="Description of the image">
+</p>
+
+### Targets of machine unlearning
+The ultimate target of machine unlearning is to reproduce a model that (1) behaves as if trained without seeing the unlearned data and (2) consumes as less time as possible. The performance baseline of an unlearned model is that of the model retrained from scratch (a.k.a., native retraining). Specfically, the authors categorized the three following targets in machine unlearning and listed their advantages and limitations:
+
+| Targets          | Aims                                                                 | Advantages                                                       | Limitations                                           |
+| ---------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------- |
+| Exact Unlearning | To make the distributions of a natively retrained model and an unlearned model indistinguishable | Ensures that attackers cannot recover any information from the unlearned model | Difficult to implement                               |
+| Strong Unlearning | To ensure that the distributions of two models are approximately indistinguishable | Easier to implement than exact unlearning                        | Attackers can still recover some information from the unlearned model |
+| Weak Unlearning  | To only ensure that the distributions of two final activations are indistinguishable | The easiest target for machine unlearning                        | Cannot guarantee whether the internal parameters of the model are successfully unlearned |
+
+They also illustrate the targets of machine unlearning and their relationship with a trained model using the figure below. The different targets, in essence, correspond to the requirement of unlearning results.
+<p align="center">
+  <img src="img/unlearning_86_targets.png" alt="Description of the image">
+</p>
+
+### Desiderata of machine unlearning
+The desiderata of machine unlearning can be summarized as the following three:
+- Consistency: how similar the behavior of a retrained model and an unlearned model is. 
+- Accuracy: if the unlearned model to predict samples correctly. 
+- Verifiability: whether a model provider has successfully unlearned the requested unlearning dataset.
+
+### Taxonomy of unlearning methods and verification mechanisms
+
+The following figure summarizes the general taxonomy of machine unlearning and its verification used in this survey. The taxonomy is inspired by the design details of the unlearning strategy. Unlearning approaches that concentrate on modifying the training data are classified in data reorganization, while methods that directly manipulate the weights of a trained model are denoted as model manipulation. As for verification methods, initially, the authors categorize those schemes as either experimental or theoretical; subsequently, they summarize these methods based on the metrics they use.
+
+<p align="center">
+  <img src="img/unlearning_86_taxonomy.png" alt="Description of the image">
+</p>
+
+The following table summarizes and compares each verification method’s advantages and limitations.
+
+| Methods            | Basic Ideas                                                             | Advantages                                  | Limitations                                         |
+|--------------------|-------------------------------------------------------------------------|---------------------------------------------|-----------------------------------------------------|
+| Retraining-based   | Removes unlearned samples and retrains models                           | Intuitive and easy to understand            | Only applicable to special unlearning schemes       |
+| Attack-based       | Based on membership inference attacks or model inversion attacks        | Intuitively measures the defense effect against some attacks | Inadequate verification capability          |
+| Relearn time-based | Measures the time when the unlearned model regains performance on unlearned samples | Easy to understand and easy to implement   | Inadequate verification capability                  |
+| Accuracy-based     | Same as a model trained without unlearned samples                       | Easy to understand and easy to implement    | Inadequate verification capability                  |
+| Theory-based       | Ensures similarity between the unlearned model and the retrained model. | Comprehensive and has theoretical support   | Implementation is complex and only applies to some specified models |
+| Information bound-based | Measures the upper-bound of the residual information about the unlearned samples | Comprehensive and has theoretical support | Hard to implement and only applicable to some specified models |
+
+### Data reorganization in machine unlearning
+
+#### Data Obfuscation
+
+The figure below shows, in data obfuscation, when receiving an unlearning request, the model continues to train $w$ based on the constructed obfuscation data $D_{obf}$ giving rise to an updated $w_u$.
+
+<p align="center">
+  <img src="img/unlearning_86_data_obfuscation.png" alt="Description of the image">
+</p>
+
+Verifiability of Schemes Based on Data Obfuscation:
+- Graves et al.: 
+  - model inversion attack
+  - membership inference attack
+- Tarrun et al.:
+  - assessment of relearning time by measuring the number of epochs for the unlearned model to reach the same accuracy as the originally trained model. 
+  - assessment of the distance between the original model, the model after the unlearning process, and the retrained model
+
+
+#### Data Pruning
+
+The following figure displays the data pruning unlearning methods, which shows that, unlearning schemes based on data pruning are usually based on ensemble learning techniques.
+
+<p align="center">
+  <img src="img/unlearning_86_data_pruning.png" alt="Description of the image">
+</p>
+
+Verifiability of Schemes Based on Data Pruning:
+- Retraining-based verification
+  - retrain the model from scratch after removing the samples that need to be unlearned from the training dataset
+- Backdoor verification
+  - design a specially crafted trigger and implant this “backdoor data” in the samples that need to be unlearned, with little effect on the model’s accuracy
+  - verify the validity of the unlearning process based on whether the backdoor data can be used to attack the unlearned model with a high success rate
+
+#### Data Replacement
+
+As shown in the below figure, when training a model in a data replacement scheme, the first step is usually to transform the training dataset into an easily unlearned type, named transformation $T$. Those transformations are then used to separately train models. When an unlearning request arrives, only a portion of the transformations $t_i$—the ones that contain the unlearned samples—need to be updated and used to retrain each submodel to complete the machine unlearning.
+
+<p align="center">
+  <img src="img/unlearning_86_data_replacement.png" alt="Description of the image">
+</p>
+
+Verifiability of Schemes Based on Data Replacement
+- Accuracy-based verification
+  - perform data pollution attacks to influence the accuracy of those models
+  - analyze whether the model’s performance after the unlearning process was restored to the same state as before the pollution attacks
+  - If the unlearned model was actually restored to its pre-pollution value, then the unlearning operation was considered to be successful.
+
+
+### Model manipulation in machine unlearning
+
+#### Model Shifting
+
+Model-shifting methods usually eliminate the influence of unlearning data by directly updating the model parameters. These methods mainly fall into one of two types—influence unlearning and Fisher unlearning.
+
+<p align="center">
+  <img src="img/unlearning_86_model_shifting.png" alt="Description of the image">
+</p>
+
+Unlearning Schemes Based on Model Shifting
+- Influence unlearning methods
+  - Certified removal: only applicable to simple ML models, e.g., linear models
+  - Projection residual update: focus on linear regression
+  - Certified unlearning: only suitable for tabular data
+- Fisher unlearning methods
+  - Kullback-Leibler (KL) based: limited applicability with various assumptions
+  - Neural tangent kernel (NTK) based: information can be inferred from middle layers
+  - Fisher Information Matrix (FIM) based: significant reduction in accuracy
+
+
+Verifiability of Schemes Based on Parameter Shifting
+- Model confidence and information bound
+  - measure the distribution of the entropy of the output predictions on the remaining dataset, the unlearning dataset, and the test dataset
+  - evaluate the similarity of those distributions against the confidence of a trained model that has never seen the unlearning dataset
+  - use KL-divergence to measure the information remaining about the unlearning dataset within the model after the unlearning process
+
+#### Model Pruning
+
+Methods based on model pruning usually prune a trained model to produce a model that can meet the requests of unlearning. It is usually applied in the scenario of federated learning, where a model provider can modify the model’s historical parameters as an update. 
+<!-- Federated learning is a distributed machine learning framework that can train a unified deep learning model across multiple decentralized nodes, where each node holds its own local data samples for training, and those samples never need to be exchanged with any other nodes -->
+
+<p align="center">
+  <img src="img/unlearning_86_model_pruning.png" alt="Description of the image">
+</p>
+
+Verifiability of Schemes Based on Model Pruning
+- Membership inference attack
+  - Attack precision & attack recall
+  - Prediction difference:  the difference in prediction probabilities between the original global model and the unlearned model
+- Bayes error rate-based divergence measurement [56]
+  - Evaluate the similarity of the resulting distributions for the pre-softmax outputs of the unlearned model and a retrained model
+
+
+#### Model Replacement
+
+Model replacement-based methods usually calculate almost all possible sub-models in advance during the training process and store them together with the deployed model. Then, when an unlearning request arrives, only the sub-models affected by the unlearning operation need to be replaced with the pre-stored sub-models. This type of solution is usually suitable for some machine learning models, such as tree-based models. 
+
+<p align="center">
+  <img src="img/unlearning_86_model_replacement.png" alt="Description of the image">
+</p>
+
+Verifiability of Schemes Based on Model Replacement
+- Membership inference attack & technique based on false negative rates
+  - If the target model successfully unlearns the samples, then the member inference attack will treat the training dataset as non-training data. 
+  - Thus, FN will be large, while TP will be small, and the corresponding FNR will be large.
+
+### Summary of unlearning schemes
+
+Here the authors provide a summary and comparison of differences between different unlearning schemes.
+
+| Schemes           | Basic Ideas                                           | Advantages                                  | Limitations                                                                 |
+|-------------------|-------------------------------------------------------|---------------------------------------------|-----------------------------------------------------------------------------|
+| Data Obfuscation  | Intentionally adds some choreographed dataset to the training dataset and retrains the model | Can be applied to almost all types of models; not too much intermediate redundant data need to be retained | Not easy to completely unlearn information from models |
+| Data Pruning      | Deletes the unlearned samples from sub-datasets that contain those unlearned samples. Then only retrains the sub-models that are affected by those samples | Easy to implement and understand; completes the unlearning process at a faster speed | Additional storage space is required; accuracy can be decreased with an increase in the number of sub-datasets |
+| Data Replacement  | Deliberately replaces the training dataset with some new transformed dataset | Supports completely unlearn information from models; easy to implement | Hard to retain all the information about the original dataset through replacement |
+| Model Shifting    | Directly updates model parameters to offset the impact of unlearned samples on the model | Does not require too much intermediate parameter storage; can provide theoretical verification | Not easy to find an appropriate offset value for complex models; calculating offset value is usually complex |
+| Model Pruning     | Replaces partial parameters with pre-calculated parameters | Reduces the cost caused by intermediate storage; the unlearning process can be completed at a faster speed | Only applicable to partial models; not easy to implement and understand |
+| Model Replacement | Prunes some parameters from already-trained models     | Easy to completely unlearn information from models | Only applicable to partial machine learning models; original model structure is usually changed |
+
+### Open questions and future questions
+Some questions are raised in the survey which are open challenges in the area of machine unlearning.
+- The Universality of Unlearning Solutions
+  - Most of the current unlearning schemes are limited to a specific scenario. 
+- The Security of Machine Unlearning
+  - The unlearning operation not only does not reduce the risk of user privacy leakage but actually increases this risk
+- The Verification of Machine Unlearning
+  - Simple verification schemes, such as those based on attacks, relearning time, and accuracy seldom provide strong verification of the unlearning process’s effectiveness
+  - Unlearning methods with a theoretical guarantee are usually based on rich assumptions and can rarely be applied to complex models
+- The Applications of Machine Unlearning
+  - In addition to strengthening data protection, machine unlearning has enormous potential in other areas
+
+The authors also provide some directions for future research:
+- Information synchronization
+- Federated unlearning
+- Disturbance techniques
+- Feature-based unlearning methods
+- Game-theory-based balance
+
 ## Conclusion & Discussion
 
 In conclusion, the paper [2] introduces a framework to expedite the unlearning process by strategically limiting the influence of a data point in the training procedure. Moreover, it is applicable to any learning algorithm but particularly beneficial for stateful algorithms like stochastic gradient descent for deep neural networks.
@@ -176,3 +363,14 @@ In conclusion, the paper [2] introduces a framework to expedite the unlearning p
 
 **Evaluation Across Datasets**: Provides an extensive evaluation of the SISA training approach across several datasets from different domains. This shows its effectiveness in handling streams of unlearning requests with minimal impact on model accuracy.
 
+Paper [4] provdes us a comphrensive survey of machine learning, organizing current research with its proposed taxonomy, and sharing open questions and future directions for follow-up studies.
+
+## References
+
+[1] Algorithms that remember: model inversion attacks and data protection law Veale et al. 2018
+
+[2] Machine Unlearning Bourtoule et al. 2019
+
+[3] Certified Data Removal from Machine Learning Models Guo et al. 2019
+
+[4] Machine Unlearning: A Survey Xu et al. 2023.
