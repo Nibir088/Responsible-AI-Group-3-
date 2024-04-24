@@ -166,6 +166,65 @@ Now, consider we relax assumptions and explore how knowledge of the distribution
 
 From above figure, we show the number of points to be retrained relative to the number of unlearning requests for both uniform and distribution-aware sharding strategies. The distribution-aware strategy decreases the expected number of points to be retrained and creates shards of unequal size. With 19 shards generated, this approach achieves approximately 94.4% prediction accuracy, which is one percent point lower than uniform sharding at 95.7%. This trade-off between accuracy and decreased unlearning overhead highlights the need for future exploration of alternative aggregation methods to address imbalanced shard sizes.
 
+## Certified Data Removal from Machine Learning Models
+The paper [3] explores the concept of certified data removal from machine learning models to ensure that no residual information from removed data can be extracted by adversaries. It introduces a framework for certified removal, providing a strong theoretical guarantee that models from which data has been removed cannot be distinguished from models that never contained the data. The study develops a practical removal mechanism for L2-regularized linear models using a differentiable convex loss function and investigates the application of this mechanism in different settings. Through experiments, it demonstrates that the removal mechanism can effectively eliminate the influence of deleted data points, with the residual error decreasing as the size of the training set increases. The paper emphasizes the balance between certified removal and model accuracy, highlighting the trade-offs involved in implementing such mechanisms in practical applications.
+
+### 
+The authors delve into the specific application of their certified removal mechanism within the context of linear models. After defining a linear classifier, where the training set \( D \) comprises pairs \((x_i, y_i)\) with \(x_i\) representing a feature vector and \(y_i\) the target. The learning algorithm \( A \) is tasked with minimizing the regularized empirical risk using a convex loss function, which is typical in logistic and linear regression models. The certified removal mechanism aims to delete a specific data point \((x, y)\) such that the adjusted model parameters reflect a model that was never trained with that data point. This is accomplished by applying a Newton step to update the parameters based on the gradient and Hessian matrix of the loss function, calculated at the current model parameters.The Newton update mechanism is mentioned as follows: 
+<p align="center">
+  <img src="img/cert1.png" alt="Description of the image">
+</p>
+
+
+Implementation details further elaborate on the mechanism's operational aspects. The Newton update formula provided calculates the gradient and Hessian for the model parameters, excluding the removed data point, aiming to minimize the loss function \( L(w; D') \), where \( D' \) represents the dataset sans the removed data point. Post-update, residual information from the removed data point might still influence the model. To mitigate this, the authors suggest adding random perturbation during training, which helps obscure any residual data that the gradient could disclose about the removed point. The section concludes with theoretical guarantees, providing bounds on the norm of the gradient residual. These mathematical boundaries are instrumental in measuring how effectively the updated model parameters mimic those of a model trained without the removed data point, thus preserving the model's integrity while minimizing the influence of the deleted data. The algorithms is as follows:
+
+
+<p align="center">
+  <img src="img/cert2.png" alt="Description of the image">
+</p>
+
+### Experiments and Results
+We test our certified removal mechanism in three settings: 
+(1) removal from a standard linear logistic regressor
+
+The experiments with the certified removal mechanism on the MNIST dataset, specifically focusing on the binary classification of digits 3 and 8. They use a regularized logistic regression model to explore the impact of varying the L2-regularization parameter (\(\lambda\)) and the standard deviation (\(\sigma\)) of the objective perturbation on test accuracy and the number of data removals the model can handle before needing retraining.
+
+The experiments reveal key trade-offs:
+- Adjusting \(\lambda\) and \(\sigma\) impacts both test accuracy and the capability for data removals. Higher \(\lambda\) values increase the number of possible removals by reducing the gradient residual norm but can decrease accuracy if too large.
+- A balance between model accuracy and data removal robustness is necessary, with higher removal capacity generally leading to slightly lower accuracy.
+
+These results underscore the effectiveness of the certified removal mechanism in managing data deletions within model parameters, highlighting the necessity of fine-tuning the parameters to balance privacy concerns with model performance.
+
+ (2) removal from a linear logistic regressor that uses a feature extractor pre-trained on public data
+
+The authors evaluate their certified removal mechanism in scenarios where a feature extractor is pre-trained on public data. The experiments focus on two tasks: scene classification on the LSUN dataset and sentiment classification on the Stanford Sentiment Treebank (SST) dataset. The feature extractors used include a ResNeXt-101 model trained on Instagram images for LSUN, and a RoBERTa language model for SST.
+
+Key findings from the experiments include:
+- **LSUN Results**: By converting the 10-way classification task into 10 binary classifications, and balancing the classes, they demonstrate that the model supports over 10,000 removals before requiring re-training, with only a minor drop in accuracy (from 88.6% to 83.3%). This is achieved while reducing the computational cost of removal by more than 250 times compared to re-training.
+- **SST Results**: For sentiment analysis, the regular model matches competitive benchmarks with 89.0% accuracy, and a slight reduction in accuracy allows for a significant increase in the number of supported removals. The cost for removal is 870 times lower than re-training.
+
+These experiments highlight the utility of the certified removal mechanism in applications involving complex datasets and models, showing that it effectively maintains model performance while enabling robust data removal capabilities. The figure below demonstrate the results:
+
+<p align="center">
+  <img src="img/cert3.png" alt="Description of the image">
+</p>
+
+
+(3) removal from a non-linear logistic regressor by using a differentially private feature extractor
+
+ The authors explore the use of a differentially private feature extractor for training on private data, applying their certified removal mechanism to the logistic regression models that use these features. This approach is tested for scenarios where public data is unavailable for feature training, emphasizing the practical benefits of integrating differential privacy at the feature extraction stage. 
+
+Key takeaways include:
+- **Enhanced Model Accuracy**: Using a differentially private feature extractor allows for more precise noise application, improving the final model's accuracy compared to models trained entirely under differential privacy constraints.
+- **Effective Data Removal**: The approach demonstrates that robust data deletion capabilities can be maintained without sacrificing model utility, even with stringent privacy measures from the start of training.
+
+This section highlights the practicality and effectiveness of combining certified data removal with differential privacy in deep learning models, showing significant advantages in terms of both privacy protection and model performance. The same is demonstrated the figure below:
+
+<p align="center">
+  <img src="img/cert4.png" alt="Description of the image">
+</p>
+
+
 ## A Survey of Machine Learning
 
 The authors of Paper [4] aim to capture the key concepts of unlearning techniques. In their survey, the existing solutions are classified and summarized based on their characteristics within an up-to-date and comprehensive review of each category’s advantages and limitations.
