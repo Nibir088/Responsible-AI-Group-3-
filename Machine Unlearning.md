@@ -70,7 +70,7 @@ Goals of Unlearning are as follows:
 - Model Agnostic: The new unlearning strategy should work across various types of models, regardless of their complexity or nature.
 - Limited Overhead: The new strategy should not introduce additional computational overhead beyond what is already required for training procedures.
 
-## SISA Training Approach
+## SISA Training Approach for Machine Unlearning
 
 Figure below shows the SISA training approach. SISA training replicates the model being learned multiple times. Each replica receiving a disjoint subset of the dataset (similar to distributed training strategies). Each replica is referred to as a “constituent model.” Unlike traditional strategies, SISA training does not allow information flow between constituent models. Gradients computed on each constituent are not shared between different constituents. This isolation ensures that the influence of a specific shard (and its data points) is restricted to the model trained using it. Each shard is further partitioned into slices. Constituent models are trained incrementally (in a stateful manner) with an increasing number of slices. At inference, the test point is fed to each constituent, and their responses are aggregated (similar to ML ensembles). When a data point needs to be unlearned (e.g., due to privacy concerns or model updates), only the constituent model containing that data point is affected. Retraining can start from the last parameter state saved before including the slice with the unlearned data point. Only the models trained using the slice containing the unlearned point need to be retrained. We can divide the procedure in 4 parts: sharding, isolation, slicing, and aggregation.
 
@@ -95,7 +95,7 @@ This strategy should not rely on the training data to ensure that it does not ne
   <img src="img/unlearning_sisa.png" alt="Description of the image">
 </p>
 
-## Measuring Time Analysis
+## Measuring Time Analysis of SISA
 
 **Measuring time for sharding**: For sequential setting, authors calculate the expectation of the number of points needed to be used for retraining. If the sharding is uniform, then each model has (roughly) the same number of initial training data points $\frac{N}{S}$. It is obvious that the first unlearning request will result in retraining of $\frac{N}{S}-1$ points for the one shard that is affected. For the second unlearning request, there will be two cases: the shard affected in the first unlearning request is affected again, which will result in retraining $\frac{N}{S}-1$ data points with a probability $\frac{1}{S}$, or any other shard is impacted resulting in retraining $\frac{N}{S}-1$ data points with probability $1-\frac{1}{S}$. Thus, inductively, we can see that for the $i^{th}$ unlearning request, the probability that $\frac{N}{S}-1-j$ points (for $0 \le j \le i − 1$) are retrained is:
 <p align="center">
@@ -124,7 +124,7 @@ Similarly, for batch setting, we need to find the expected minimum value over mu
 
 
 
-## Evaluation
+## Evaluation of SISA
 Model is evaluated on MNIST, Purchase, SVHN, CIFAR-100, ImageNET, and mini-imagenet dataset. Results are as follows:
 
 **Impact of sharding**: Impact of sharding can be found in figure below. Despite providing similar benefits to batch $K$ and $\frac{1}{S}$ fraction baselines, SISA training shows more accuracy degradation for complex tasks like ImageNet. While consistently outperforming the $\frac{1}{S}$ fraction baseline, SISA training still faces challenges. With label aggregation results in an average top-5 accuracy degradation of 16.14 PPs. Varying the aggregation strategy mitigates this gap (Average improvements of 1.68 PPs in top-1 accuracy and 4.37 PPs in top-5 accuracy). It emphasizes the importance of ensuring each shard contains a sufficient number of data points to maintain high accuracy in constituent models.
@@ -151,7 +151,7 @@ time is the same for both approaches. It is clear that slicing reduces the retra
 
 
 
-## Distributional Knowledge
+## Distributional Knowledge aware SISA
 
 Now, consider we relax assumptions and explore how knowledge of the distribution of unlearning requests can benefit service providers. Retraining time and accuracy degradation can be minimized by understanding which data points are more likely to be unlearned based on auxiliary information. For instance, grouping users likely to request data erasure into shards can reduce retraining time. For instance, show the figure below. Moreover, adapting sharding strategies based on the distribution of unlearning requests, such as concentrating points from high-risk groups into fewer partitions, can further reduce the number of shards needing retraining.
 <p align="center">
