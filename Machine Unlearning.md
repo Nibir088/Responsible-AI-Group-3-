@@ -169,14 +169,16 @@ From above figure, we show the number of points to be retrained relative to the 
 ## Certified Data Removal from Machine Learning Models
 The paper [3] explores the concept of certified data removal from machine learning models to ensure that no residual information from removed data can be extracted by adversaries. It introduces a framework for certified removal, providing a strong theoretical guarantee that models from which data has been removed cannot be distinguished from models that never contained the data. The study develops a practical removal mechanism for L2-regularized linear models using a differentiable convex loss function and investigates the application of this mechanism in different settings. Through experiments, it demonstrates that the removal mechanism can effectively eliminate the influence of deleted data points, with the residual error decreasing as the size of the training set increases. The paper emphasizes the balance between certified removal and model accuracy, highlighting the trade-offs involved in implementing such mechanisms in practical applications.
 
-### 
-The authors delve into the specific application of their certified removal mechanism within the context of linear models. After defining a linear classifier, where the training set \( D \) comprises pairs \((x_i, y_i)\) with \(x_i\) representing a feature vector and \(y_i\) the target. The learning algorithm \( A \) is tasked with minimizing the regularized empirical risk using a convex loss function, which is typical in logistic and linear regression models. The certified removal mechanism aims to delete a specific data point \((x, y)\) such that the adjusted model parameters reflect a model that was never trained with that data point. This is accomplished by applying a Newton step to update the parameters based on the gradient and Hessian matrix of the loss function, calculated at the current model parameters.The Newton update mechanism is mentioned as follows: 
+### Removal Mechanism
+The authors delve into the specific application of their certified removal mechanism within the context of linear models. After defining a linear classifier, where the training set  $D$ comprises pairs $(x_i, y_i)$ with $x_i$ representing a feature vector and $y_i$ the target. The learning algorithm $A$ is tasked with minimizing the regularized empirical risk using a convex loss function, which is typical in logistic and linear regression models. The certified removal mechanism aims to delete a specific data point $(x, y)$
+ such that the adjusted model parameters reflect a model that was never trained with that data point. This is accomplished by applying a Newton step to update the parameters based on the gradient and Hessian matrix of the loss function, calculated at the current model parameters.The Newton update mechanism is mentioned as follows: 
 <p align="center">
   <img src="img/cert1.png" alt="Description of the image">
 </p>
 
 
-Implementation details further elaborate on the mechanism's operational aspects. The Newton update formula provided calculates the gradient and Hessian for the model parameters, excluding the removed data point, aiming to minimize the loss function \( L(w; D') \), where \( D' \) represents the dataset sans the removed data point. Post-update, residual information from the removed data point might still influence the model. To mitigate this, the authors suggest adding random perturbation during training, which helps obscure any residual data that the gradient could disclose about the removed point. The section concludes with theoretical guarantees, providing bounds on the norm of the gradient residual. These mathematical boundaries are instrumental in measuring how effectively the updated model parameters mimic those of a model trained without the removed data point, thus preserving the model's integrity while minimizing the influence of the deleted data. The algorithms is as follows:
+Implementation details further elaborate on the mechanism's operational aspects. The Newton update formula provided calculates the gradient and Hessian for the model parameters, excluding the removed data point, aiming to minimize the loss function $L(w; D')$, where $D'$ represents the dataset sans the removed data point.
+Post-update, residual information from the removed data point might still influence the model. To mitigate this, the authors suggest adding random perturbation during training, which helps obscure any residual data that the gradient could disclose about the removed point. The section concludes with theoretical guarantees, providing bounds on the norm of the gradient residual. These mathematical boundaries are instrumental in measuring how effectively the updated model parameters mimic those of a model trained without the removed data point, thus preserving the model's integrity while minimizing the influence of the deleted data. The algorithms is as follows:
 
 
 <p align="center">
@@ -185,17 +187,17 @@ Implementation details further elaborate on the mechanism's operational aspects.
 
 ### Experiments and Results
 We test our certified removal mechanism in three settings: 
-(1) removal from a standard linear logistic regressor
+**(1) removal from a standard linear logistic regressor**
 
-The experiments with the certified removal mechanism on the MNIST dataset, specifically focusing on the binary classification of digits 3 and 8. They use a regularized logistic regression model to explore the impact of varying the L2-regularization parameter (\(\lambda\)) and the standard deviation (\(\sigma\)) of the objective perturbation on test accuracy and the number of data removals the model can handle before needing retraining.
+The experiments with the certified removal mechanism on the MNIST dataset, specifically focusing on the binary classification of digits 3 and 8. They use a regularized logistic regression model to explore the impact of varying the L2-regularization parameter ($\lambda$) and the standard deviation ($\sigma$) of the objective perturbation on test accuracy and the number of data removals the model can handle before needing retraining.
 
 The experiments reveal key trade-offs:
-- Adjusting \(\lambda\) and \(\sigma\) impacts both test accuracy and the capability for data removals. Higher \(\lambda\) values increase the number of possible removals by reducing the gradient residual norm but can decrease accuracy if too large.
+- Adjusting $\lambda$ and $\sigma$ impacts both test accuracy and the capability for data removals. Higher $\lambda$ values increase the number of possible removals by reducing the gradient residual norm but can decrease accuracy if too large.
 - A balance between model accuracy and data removal robustness is necessary, with higher removal capacity generally leading to slightly lower accuracy.
 
 These results underscore the effectiveness of the certified removal mechanism in managing data deletions within model parameters, highlighting the necessity of fine-tuning the parameters to balance privacy concerns with model performance.
 
- (2) removal from a linear logistic regressor that uses a feature extractor pre-trained on public data
+ **(2) removal from a linear logistic regressor that uses a feature extractor pre-trained on public data**
 
 The authors evaluate their certified removal mechanism in scenarios where a feature extractor is pre-trained on public data. The experiments focus on two tasks: scene classification on the LSUN dataset and sentiment classification on the Stanford Sentiment Treebank (SST) dataset. The feature extractors used include a ResNeXt-101 model trained on Instagram images for LSUN, and a RoBERTa language model for SST.
 
@@ -210,7 +212,7 @@ These experiments highlight the utility of the certified removal mechanism in ap
 </p>
 
 
-(3) removal from a non-linear logistic regressor by using a differentially private feature extractor
+**(3) removal from a non-linear logistic regressor by using a differentially private feature extractor**
 
  The authors explore the use of a differentially private feature extractor for training on private data, applying their certified removal mechanism to the logistic regression models that use these features. This approach is tested for scenarios where public data is unavailable for feature training, emphasizing the practical benefits of integrating differential privacy at the feature extraction stage. 
 
